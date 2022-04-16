@@ -1,14 +1,14 @@
-## PlanIt Eats
+# PlanIt Eats
 
-### npm start
+### 'npm start'
 
 ### npx react-native run-ios
 
 ### npx react-native run-android
 
-## Overview
+# Overview
 
-# Stack navigation & form field validation
+## Stack navigation & form field validation
 
 * React-navigation/native-stack
 * React-hook-form
