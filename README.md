@@ -1,10 +1,10 @@
 # PlanIt Eats
 
-### 'npm start'
+### `npm start`
 
-### npx react-native run-ios
+### `npx react-native run-ios`
 
-### npx react-native run-android
+### `npx react-native run-android`
 
 # Overview
 
