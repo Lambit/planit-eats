@@ -2,6 +2,10 @@ import React from 'react';
 import { Text } from 'react-native-paper';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
+/* -----Form Button-----
+    Buttons to be implimented and utilized throught web app, with 
+    custom styles and props passed.
+*/ 
 
 const FormButton = ({ onPress, text, type , bdColor, fgColor }) => {
   return (
@@ -37,6 +41,7 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
+      elevation: 5
     },
     text: {
       color: 'white', 

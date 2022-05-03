@@ -3,6 +3,10 @@ import React from 'react';
 import { Button, Paragraph, Dialog, Portal, Provider, Text } from 'react-native-paper';
 
 
+/* 
+    A modal to be implimented utilized throughout web app.
+    
+*/ 
 
 const ConfirmationAlert = ({ onPress, onDismiss, visible, text }) => {
     return (
@@ -10,7 +14,7 @@ const ConfirmationAlert = ({ onPress, onDismiss, visible, text }) => {
           <View>
             <Button onPress={onPress} />
             <Portal>
-              <Dialog visible={visible} onDismiss={onDismiss} style={{backgroundColor: '#383bd6', backfaceVisibility: 'hidden'}}>
+              <Dialog visible={visible} onDismiss={onDismiss} style={{backgroundColor: 'seashell', backfaceVisibility: 'hidden'}}>
                 <Dialog.Title style={{color: 'black'}}>Alert</Dialog.Title>
                 <Dialog.Content>
                   <Paragraph style={{color: 'black'}}>{text}</Paragraph>

@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 
-import ControlledInput from '../components/controlled-input/ControlledInput';
 import FormButton from '../components/form-button/FormButton';
 import ConfirmationAlert from '../components/confirmation-alert/ConfirmationAlert';
 
 import { Title } from 'react-native-paper';
-import { useForm } from 'react-hook-form';
-
 
 
 const NewPassword = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
-
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
-  const { control, handleSubmit} = useForm();
-
+  
   const onSignIn = () => {
     console.warn('back');
   };
 
+  // show alert on confirmation
   const onConfirm = () => {
     if (!visible){
       navigation.navigate('Login'); ;
@@ -30,38 +26,46 @@ const NewPassword = ({ navigation }) => {
     };
   };
   return (
+    // ------------Send Code Screen-------------------
     <SafeAreaView style={styles.parent}>
         
+        {/* ---------------Title--------------- */}
         <Title style={styles.title} >Reset Password</Title>
 
-      <ControlledInput 
+      {/* -------Send Code Input-------- */}
+      {/* <CustomInput 
         placeholder='Code' 
         name='code' 
         control={control}
-      />
+      /> */}
       
-      <ControlledInput 
+      {/* -------Password Input-------- */}
+      <CustomInput 
         placeholder='Enter new password' 
         name='password' 
         control={control}
       />
- 
+
+      {/* -------Confirm Button-------- */}
       <FormButton 
         text='Confirm' 
         onPress={showDialog} 
         bdColor='#d44444' 
       />
 
+      {/* -------Back Button-------- */}
       <FormButton 
         text='Back to Sign In' 
         onPress={onSignIn}  
         bdColor='#080938' 
-        type='TERTIARY' />
+      />
 
+      {/* -------Confirmation Alert-------- */}
       <ConfirmationAlert  
         visible={visible} 
         onPress={onConfirm} 
-        text='Password is reset, please confirm in email before attempting to log in.'
+        text=
+        'Password is reset, please confirm in email before attempting to log in.'
       />
     </SafeAreaView>
   );

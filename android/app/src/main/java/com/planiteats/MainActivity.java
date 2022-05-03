@@ -23,10 +23,10 @@ protected void onCreate(Bundle savedInstanceState) {
   super.onCreate(null);
 }
 
-@Override
-  protected String getMainComponentName() {
-    return "app-name";
-  }
+// @Override
+//   protected String getMainComponentName() {
+//     return "app-name";
+//   }
 
 
 // -----------------------------------------------------

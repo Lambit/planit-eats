@@ -1,53 +1,51 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, onPress } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 
-import ControlledInput from '../components/controlled-input/ControlledInput';
+
 import FormButton from '../components/form-button/FormButton';
 
-import { Text, Title } from 'react-native-paper';
-import { useForm } from 'react-hook-form';
+import { Title } from 'react-native-paper';
 
-import { yupResolver } from '@hookform/resolvers/yup';
 
 
 const ForgotPassword = ({ navigation }) => {
 
+  // Path to code generation screen
   const onConfirm = () => {
     navigation.navigate('NewPass');
   };
 
-  const onSignIn = () => {
+  // Back button
+  const backToLogIn = () => {
     navigation.navigate('Login');
   };
-
-  const { control, handleSubmit, errors } = useForm({
-  
-  });
-  console.log(errors);
-
 return (
+    // -----------Reset Password Screen--------------------
     <SafeAreaView style={styles.parent}>
-        
+
+         {/*------------Title----------- */}
         <Title style={styles.title} >Reset Password</Title>
 
-      <ControlledInput 
+      {/* ------Input Feilds-----------*/}
+      {/* <CustomInput 
         placeholder='Email' 
         name='email'
         control={control}
-      />
+      /> */}
  
+      {/* -------Confirm Button-------- */}
       <FormButton 
         text='Confirm' 
         onPress={handleSubmit(onConfirm)} 
         bdColor='#080938' 
-        type='TERTIARY' 
       />
 
+      {/* -------Back Button-------- */}
       <FormButton 
         text='Back to Sign In' 
-        onPress={onSignIn} 
+        onPress={backToLogIn} 
         bdColor='#080938' 
-        type='TERTIARY' 
+        type='no_BUTTON' 
       />
     </SafeAreaView>
   );
