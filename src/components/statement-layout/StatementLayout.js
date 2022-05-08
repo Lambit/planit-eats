@@ -8,6 +8,10 @@ import {
     Divider }
 from 'native-base';
 
+/*-----StatementLayout-----
+  PlanIt Eats mission statement styled with native-base being displayed on home page.
+*/ 
+
 const StatementLayout = () => {
   return (
     <HStack space={6} justifyContent="center" my='4' >

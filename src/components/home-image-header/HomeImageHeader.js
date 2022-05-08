@@ -4,6 +4,10 @@ import { ImageBackground } from 'react-native';
 // Packages
 import { Heading, VStack } from 'native-base';
 
+/*-----HomeImageHeader-----
+  Image used as a header on the home page, with text  displayed over it.
+*/ 
+
 const HomeImageHeader = () => {
   return (
     <ImageBackground source={require('../../assets/img/shredded-chick.png')} 

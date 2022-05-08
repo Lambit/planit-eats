@@ -21,9 +21,9 @@ import { signOut } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* ----HomeScreen------
-Initial Auth route, once a user is logged they are routed here. The below
-functions are temporary placed here for testing. IconMenu will be its own 
-component. HStack Layout will be similar to current state. 
+  Initial Auth route, once a user is logged they are routed here. The below
+  functions are temporary placed here for testing. IconMenu will be its own 
+  component. HStack Layout will be similar to current state. 
 */ 
 
 const HomeScreen = ({ route }) => {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, View } from 'react-native';
 
+// Components
 import FormButton from '../components/form-button/FormButton';
 import EmailInput from '../components/email-input/EmailInput';
 

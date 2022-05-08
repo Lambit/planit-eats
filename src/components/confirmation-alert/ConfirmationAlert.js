@@ -2,10 +2,8 @@ import { View } from 'react-native';
 import React from 'react';
 import { Button, Paragraph, Dialog, Portal, Provider, Text } from 'react-native-paper';
 
-
-/* 
+/*-----ConfirmationAlert-----
     A modal to be implimented utilized throughout web app.
-    
 */ 
 
 const ConfirmationAlert = ({ onPress, onDismiss, visible, text }) => {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 
-
+// Components
 import FormButton from '../components/form-button/FormButton';
 
+// Packages
 import { Title } from 'react-native-paper';
 
 

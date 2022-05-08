@@ -1,4 +1,9 @@
 import React from 'react';
+
+// Components
+import FormButton from '../form-button/FormButton';
+
+// Packages
 import { 
     HStack, 
     Center, 
@@ -8,8 +13,10 @@ import {
     Divider }
 from 'native-base';
 
-// Components
-import FormButton from '../form-button/FormButton';
+/*-----TwentyOneDay-----
+  PlanIt Eats mission 21 day challenge styled with native-base being displayed on home page.
+  This is the base to all of their meal packages.
+*/ 
 
 const TwentyOneDay = () => {
   return (

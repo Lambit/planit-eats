@@ -26,6 +26,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+/*-----StackOrTabsNav-----
+  Checks the state of the user to decide which navigation to display. If logged in
+  display Tabs. Else display stack to register new user of sign in.
+*/ 
+
 // Check user Auth----Will be moved to a context provider
 export const StackOrTabsNav = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);

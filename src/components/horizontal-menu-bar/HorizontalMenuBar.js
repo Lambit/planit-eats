@@ -3,7 +3,13 @@ import { useNavigation } from '@react-navigation/native';
 
 // Packages
 import Feather from "react-native-vector-icons/Feather";
-import { HStack, Center, ScrollView, Badge, Button } from 'native-base';
+import { HStack, Center, ScrollView, Button } from 'native-base';
+
+/*-----HorizontalMenuBar-----
+  Horizontal scrollable menu bar that is fixed to the top of the page (once logged in).
+  Consists of full menu and all the different catagories. Once clicked user is navigated
+  to specified page.
+*/ 
 
 const HorizontalMenuBar = ({route}) => {
   const navigation = useNavigation();

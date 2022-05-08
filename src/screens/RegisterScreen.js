@@ -9,7 +9,7 @@ import { auth, db } from '../firebase-config';
 import { createUserWithEmailAndPassword, sendSignInLinkToEmail } from 'firebase/auth';
 import { collection, doc, setDoc, addDoc, Timestamp } from 'firebase/firestore';
 
-// Npm packages
+// Packages
 import { Title, Surface, TextInput,  } from 'react-native-paper';
 
 

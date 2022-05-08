@@ -1,5 +1,9 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native';
+import React from 'react';
+
+/*-----SaladMenuScreen-----
+  Menu Screen displayed
+*/ 
 
 const SaladMenuScreen = () => {
   return (

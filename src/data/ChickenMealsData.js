@@ -1,6 +1,10 @@
 import BuffChick from '../assets/img/chicken/buff-chick.png';
 import ChickThigh from '../assets/img/chicken/baked-chick-thigh.jpg';
 
+/*-----ChickenMealsData-----
+  Data for chicken menu to use as props for the MenuLayout
+*/ 
+
 export const ChickenMealsData = {
     chicken: [
         {

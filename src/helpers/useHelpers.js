@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+// Firebase
 import { getAuth } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 
+// Components
 import FormButton from '../components/form-button/FormButton';
 import ConfirmationAlert from '../components/confirmation-alert/ConfirmationAlert';
 
+// Packages
 import { Title } from 'react-native-paper';
 
 

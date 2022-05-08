@@ -6,6 +6,10 @@ import HorizontalMenuBar from '../components/horizontal-menu-bar/HorizontalMenuB
 import MenuLayout from '../components/menu-layout/MenuLayout';
 import { ChickenMealsData } from '../data/ChickenMealsData';
 
+/*-----ChickenScreenMenu-----
+  Menu Screen displayed, mapping chicken data, through MenuLayout and displaying it.
+*/ 
+
 const ChickenMenuScreen = () => {
     const { chicken } = ChickenMealsData;
   return (

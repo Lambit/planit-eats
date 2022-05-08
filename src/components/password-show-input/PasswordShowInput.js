@@ -1,6 +1,9 @@
 import React from 'react'
-import { Button, Box, Heading, VStack, FormControl, Input, Link, HStack, Text } from 'native-base';
+import { FormControl, Input } from 'native-base';
 
+/*-----PasswordShowInput-----
+  Password input with a button that toggles hide/show text on selected field.
+*/ 
 
 const PasswordShowInput = ({onChangeText, type, InputRightElement}) => {
   return (

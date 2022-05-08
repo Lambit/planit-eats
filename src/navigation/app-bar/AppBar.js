@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet } from 'react-native'
 // import { Appbar } from 'react-native-paper'
+
+// Packages
 import { AppBar, StatusBar, Box, HStack, Icon, IconButton, Text, Center, Menu, } from 'native-base';
+
+// Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+/*-----CustomAppBar-----
+  Header for Tabs, once logged in header will be shown.
+*/ 
 
 export function CustomAppBar({ navigation, back }) {
     // const [visible, setVisible] = React.useState(false);

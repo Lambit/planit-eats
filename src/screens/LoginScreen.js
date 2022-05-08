@@ -12,9 +12,9 @@ import { auth } from '../firebase-config';
 import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence, } from "firebase/auth";
 import { FirebaseError } from 'firebase/app';
 
-// npm packages
+// Packages
 import { Button, Box, Heading, VStack, FormControl, Input, Link, HStack, Text } from 'native-base';
-import eatsTheme from '../assets/theme/theme';
+import EatsTheme from '../assets/theme/theme';
 
 /* -----LogInScreen-----
     Inital route for App if not logged in. onSignIn temporarily placed here.
@@ -23,7 +23,7 @@ import eatsTheme from '../assets/theme/theme';
 */ 
 
 const LoginScreen = ({ navigation, route }) => {
-    const {colors} = eatsTheme()
+    const {colors} = EatsTheme()
     const [isSignedIn, setisSignedIn]= useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -143,6 +143,7 @@ const LoginScreen = ({ navigation, route }) => {
                     onChangeText={userPassword => setPassword(userPassword)}
                     type={show ? "text" : "password"}
                     InputRightElement={
+                        // button styles and state change
                         <Button
                             _ios={{
                                 bg:'#22c55e',
@@ -182,7 +183,7 @@ const LoginScreen = ({ navigation, route }) => {
                       Forget Password?
                     </Link>
 
-                    {/* ------OnToRegistrnButton------ */}
+                    {/* ------OnToRegisterButton------ */}
                     <HStack alignSelf="flex-end" mt="1" >
                         <Text fontSize="sm"  
                         fontWeight='500' 

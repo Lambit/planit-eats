@@ -1,10 +1,14 @@
 import React from 'react'
 import { extendTheme } from 'native-base';
 
-export default function eatsheme() {
+/*-----EatsTheme-----
+  Constant styles used to theme app. colors, spacing, fonts and breakpoints.
+*/ 
+
+export default function EatsTheme() {
     const theme = extendTheme({
         colors: {
-          primary: {
+          green: {
             10: '#dcfce7',
             20: '#bbf7d0',
             30: '#4ade80',
@@ -15,7 +19,7 @@ export default function eatsheme() {
             80: '#166534',
             90: '#14532d',
           },
-          secondary: {
+          teal: {
               10: '#5eead4',
               20: '#2dd4bf',
               30: '#14b8a6',
