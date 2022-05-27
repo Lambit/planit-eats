@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
 
 // Components
 import FormButton from '../components/form-button/FormButton';
-import ConfirmationAlert from '../components/confirmation-alert/ConfirmationAlert';
-
-// Packages
-import { Title } from 'react-native-paper';
 
 
 const NewPassword = ({ navigation }) => {
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
+
+  console.log(route.params, 'NewPassword ====');
+  console.log(route.key, 'NewPassword $$$$$$');
 
   
   const onSignIn = () => {
@@ -32,7 +31,7 @@ const NewPassword = ({ navigation }) => {
     <SafeAreaView style={styles.parent}>
         
         {/* ---------------Title--------------- */}
-        <Title style={styles.title} >Reset Password</Title>
+        <Text style={styles.title} >Reset Password</Text>
 
       {/* -------Send Code Input-------- */}
       {/* <CustomInput 

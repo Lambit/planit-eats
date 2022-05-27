@@ -1,21 +1,23 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
 
 // Components
 import FormButton from '../components/form-button/FormButton';
 
 // Packages
-import { Title } from 'react-native-paper';
+
 
 
 
 const ForgotPassword = ({ navigation }) => {
+  console.log(route.params, 'ForgotPassword ====');
+  console.log(route.key, 'ForgotPassword $$$$$$');
 
+  //-----------Nav Functions--------------------------
   // Path to code generation screen
   const onConfirm = () => {
     navigation.navigate('NewPass');
   };
-
   // Back button
   const backToLogIn = () => {
     navigation.navigate('Login');
@@ -25,7 +27,7 @@ return (
     <SafeAreaView style={styles.parent}>
 
          {/*------------Title----------- */}
-        <Title style={styles.title} >Reset Password</Title>
+        <Text style={styles.title} >Reset Password</Text>
 
       {/* ------Input Feilds-----------*/}
       {/* <CustomInput 
@@ -37,7 +39,7 @@ return (
       {/* -------Confirm Button-------- */}
       <FormButton 
         text='Confirm' 
-        onPress={handleSubmit(onConfirm)} 
+        // onPress={handleSubmit(onConfirm)} 
         bdColor='#080938' 
       />
 

@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, Alert } from 'react-native';
+import { StyleSheet, ImageBackground, Image } from 'react-native';
+import { SafeAreaView, } from 'react-native-safe-area-context'
 
 // Components
 import FormButton from '../components/form-button/FormButton';
-
-// Firebase
-import { auth, db } from '../firebase-config';
-import { createUserWithEmailAndPassword, sendSignInLinkToEmail } from 'firebase/auth';
-import { collection, doc, setDoc, addDoc, Timestamp } from 'firebase/firestore';
+import CustomInput from '../components/custom-input/CustomInput';
+import PasswordShowInput from '../components/password-show-input/PasswordShowInput';
 
 // Packages
-import { Title, Surface, TextInput,  } from 'react-native-paper';
+import { Button, Box, Heading, VStack, ScrollView, useDisclose  } from 'native-base';
+
+// Firebase
+import { auth } from '../firebase-config';
+import { createUserWithEmailAndPassword, sendSignInLinkToEmail } from 'firebase/auth';
+import { db } from '../firebase-config';
+import { setDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
 
 
 /*----RegisterScreen-----
@@ -20,111 +24,198 @@ import { Title, Surface, TextInput,  } from 'react-native-paper';
 */ 
 
 const RegisterScreen = ({ navigation }) => {
-  const [isSignedIn, setisSignedIn]= useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [formError, setFormError]= useState('');
-  const newUserRef = collection(db, 'user');
+  const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState('');
+  const [visible, setIsVisible] = useState(false);
+  const { isOpen, onClose, onToggle } = useDisclose();
+
+  console.log(route.params, 'RegisterScreen ====');
+  console.log(route.key, 'RegisterScreen $$$$$$');
+
+  //----Show button color on password input-----
+  const handleClick = () => setShow(!show);
+
+  //---Remove form isInvalid and errors state---
+  const handleErrors = () => setIsVisible(true);
+
   
-  // ------------Register user--------------------
+
+  // ------------Register user with form/auth validation--------------------
   const registerUser = async () => {
+    let textInputs = [email, password, passwordConfirm];
+    let passwordMatch = password === passwordConfirm;
+    
+    if(textInputs.includes('') || textInputs.includes(undefined)) 
+    return setErrors('Form fields must be filled out.');
+
+    if(!email.includes('@', '.com'))
+    return setErrors('Not valid email.');
+
+    if(password.length < 8) 
+    return setErrors("Pasworrd is too short.");
+
+    if(!passwordMatch) 
+    return setFormError('Passwords do not match.');
+
     await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const newUser = userCredential.user;
-        const user = auth.currentUser;
-        console.log('-------------------------', newUser)
-        console.log('++++++++++++++++++++++++++', user)
-        // setisSignedIn(true);
-        // navigation.navigate('SubNSav', {user});
+        console.log('RegisterScreen------------------', newUser)
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.message)
       })
+     
     };
 
-  // ----------------Form validation---------------
-  const formValidation = () => {
-    let textInputs = [email, password, passwordConfirm];
-    let passwordMatch = password === passwordConfirm;
-
-    if(textInputs.includes('') || textInputs.includes(undefined)) 
-    return setFormError('Form fields must be filled out.');
-
-    if(!passwordMatch) return setFormError('Passwords do not match.');
-
-    if(passwordMatch) return registerUser(); 
-  }
-
-  // --------Navigation--------
+  // --------Navigation Functions--------
   const backToLogIn = () => {
       navigation.navigate('Login');
   };
   const testPurp = () => {
     navigation.navigate('SubNSav');
 };
+
   return (
-    // ----------------Register Screen--------------------------
-      <SafeAreaView style={styles.parent}>
-
-        {/* ------------Title------------------- */}
-          <Surface style={styles.surface}>
-            <Title style={styles.title} >Register Account</Title>
-          </Surface>
-
-          {/* ---------------Inputs-------------- */}
-          <TextInput 
-            mode='flat'
-            selectionColor='darkgreen'
-            activeUnderlineColor='darkseagreen'
-            autoCapitalize='none'
-            name='email'
-            clearButtonMode='always'
-            style={{width: '100%', height: 30, marginVertical: 4,}}
-            placeholder='Email'
-            value={email || formError} 
-            onChangeText={userEmail => setEmail(userEmail)}
-            />
-
-          <TextInput 
-            mode='flat'
-            selectionColor='darkgreen'
-            activeUnderlineColor='darkseagreen'
-            autoCapitalize='none'
-            name='password'
-            placeholder='Password' 
-            style={{width: '100%', height: 30, marginVertical: 4,}}
-            secureTextEntry
-            value={password || null} 
-            onChangeText={userPassword => setPassword(userPassword)} 
-            />
-
-          <TextInput as
-            mode='flat'
-            selectionColor='darkgreen'
-            activeUnderlineColor='darkseagreen'
-            autoCapitalize='none'
-            name='passwordConfirm'
-            placeholder='Password' 
-            style={{width: '100%', height: 30, marginVertical: 4,}}
-            secureTextEntry
-            value={passwordConfirm || null }
-            onChangeText={text => setPasswordConfirm(text)}
+    // ----------------Background Image---------------------------  
+    <ImageBackground source={require('../assets/img/avo-tom.png')} 
+        accessibilityLabel='Tomato and herb background image.'
+        resizeMode='cover'
+        style={{
+            width: 400, 
+            height: '100%',
+            overflow: 'hidden',
+            justifyContent: 'center',
+            }
+        }
+    >  
+     <ScrollView>
+      <SafeAreaView style={{ flex: 1, alignItems:'center' }} >
+     
+          {/*------------Logo----------- */}
+          <Image source={require('../assets/img/PlanItEatsLogo-text-mobile.png')} 
+              accessibilityLabel='Text Logo.'
+                  style={{
+                      width: '90%', 
+                      height: 80,
+                      marginTop: 40,
+                      }
+                  }
           />
+          <Image source={require('../assets/img/PlanItEatsLogo-globe-mobile.png')} 
+              accessibilityLabel='Globe Logo.'
+                  style={{
+                      width: 100, 
+                      height: 100, 
+                      }
+                  }
+          />        
+       
+          {/* ------LogIn Form ------------------- */}
+          <Box 
+              p='2' 
+              py="4" 
+              w="80%" 
+              maxW="300" 
+          >
+              <Heading 
+                  size="lg" 
+                  fontWeight="600" 
+                  color="coolGray.800" 
+              >
+                  Register!
+              </Heading>
 
-          {/* {formError
-            ? <Text>{formError }</Text>
-            : null  } */}
+              <VStack space={2} mt="1">
+                {/* -------------Email Input------------------- */}
+                <CustomInput 
+                    onChange={handleErrors}
+                    text='Email'
+                    placeholder='Email'
+                    autoCapitalize='none'
+                    keyboardType='email-address'
+                    onChangeText={userEmail => setEmail(userEmail)}
+                    isInvalid={visible ? false : errors}
+                    errorMsg={visible ? false : errors} 
+                />
+                {/* -------------Password Input------------------- */}
+                <PasswordShowInput
+                  onChange={handleErrors}
+                  text= 'Password' 
+                  onChangeText={userPassword => setPassword(userPassword)}
+                  type={show ? "text" : "password"}
+                  errorMsg={visible ? false : errors}
+                  isInvalid={visible ? false : errors}
+                  InputRightElement={
+                    // button styles and state change
+                    <Button
+                      bg={show ? '#d97706' : '#22c55e'}
+                      _text={{ 
+                          color: show ? '#000' : '#FFF' 
+                      }}
+                      size="xs" 
+                      rounded="none" 
+                      w="1/5"
+                      h="full" 
+                      onPress={handleClick}
+                    >
+                      {show ? "Hide" : "Show"}
+                    </Button>
+                  }
+                />
 
+                  {/* -------------Password Input------------------- */}
+                  <PasswordShowInput
+                    onChange={handleErrors}
+                    text= 'Confirm Password' 
+                    onChangeText={userPassword => setPassword(userPassword)}
+                    type={show ? "text" : "password"}
+                    errorMsg={visible ? false : errors}
+                    isInvalid={visible ? false : errors}
+                    InputRightElement={
+                      // button styles and state change
+                      <Button
+                        bg={show ? '#d97706' : '#22c55e'}
+                        _text={{ 
+                            color: show ? '#000' : '#FFF' 
+                        }}
+                        size="xs" 
+                        rounded="none" 
+                        w="1/5"
+                        h="full" 
+                        onPress={handleClick}
+                        >
+                          {show ? "Hide" : "Show"}
+                      </Button>
+                    }
+                  />
 
+                    {/* ------Forgot Password Button------ */}
+                    <Button 
+                      size='xs'
+                      variant='ghost'
+                      alignSelf="flex-end" 
+                      // onPress={toForgotPass}
+                      _text={{
+                        fontSize: "xs",
+                        fontWeight: "500",
+                        color: "indigo.500"
+                      }} 
+                    >
+                      Buy Meals now! 
+                    </Button>
+                 </VStack>
+          </Box> 
 
           {/* Agree to terms polocy HERE */}
 
-
           {/* -----------Buttons---------- */}
+          <VStack space={2} marginBottom="2">
           <FormButton 
               text='Create Account' 
-              onPress={formValidation} 
+              onPress={registerUser} 
               bdColor='#d44444' 
           />
 
@@ -134,37 +225,17 @@ const RegisterScreen = ({ navigation }) => {
             bdColor='#080938'
           /> 
           {/* ---------testCase-------- */}
-          <FormButton 
+          {/* <FormButton 
             text='Test' 
             onPress={testPurp} 
             bdColor='#080938'
-          /> 
-    </SafeAreaView>
+          />  */}
+          </VStack>
+          
+        </SafeAreaView>
+      </ScrollView>
+    </ImageBackground> 
   );
 };
-
-export const styles = StyleSheet.create({
-    parent: {
-      flex: 1,
-      alignItems: 'center',
-      backgroundColor: 'seashell', 
-    },
-    title: {
-      color: '#dda0dd',
-      fontSize: 24,
-      fontWeight: '400',
-    },
-    surface: {
-      margin: 20,
-      padding: 8,
-      height: 80,
-      width:'60%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      elevation: 8,
-      backgroundColor: 'seashell',
-      shadowColor: '#dda0dd',
-    },
-});
 
 export default RegisterScreen;

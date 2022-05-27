@@ -1,87 +1,89 @@
-import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, ImageBackground, View, Image } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { StyleSheet, ImageBackground, Image } from 'react-native';
+import { SafeAreaView, } from 'react-native-safe-area-context'
 
 // Components/Screens
-import EmailInput from '../components/email-input/EmailInput';
+import CustomInput from '../components/custom-input/CustomInput';
 import PasswordShowInput from '../components/password-show-input/PasswordShowInput';
 import FormButton from '../components/form-button/FormButton';
-import HomeScreen from './HomeScreen';
+import { AuthContext } from '../navigation/context/AuthContext';
+import Chicken from '../assets/img/chicken.svg';
+import { SvgXml } from 'react-native-svg';
+
+
+// Packages
+import { Button, Box, Heading, VStack, Text } from 'native-base';
 
 // Firebase
 import { auth } from '../firebase-config';
-import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence, } from "firebase/auth";
+import { signInWithEmailAndPassword, } from "firebase/auth";
 import { FirebaseError } from 'firebase/app';
 
-// Packages
-import { Button, Box, Heading, VStack, FormControl, Input, Link, HStack, Text } from 'native-base';
-import EatsTheme from '../assets/theme/theme';
 
 /* -----LogInScreen-----
     Inital route for App if not logged in. onSignIn temporarily placed here.
     I am being picky on forms so they arent set in stone, validation is 
     sketchy at best right now. Nav functions will stay. Logo coming soon.
+    
+    LoginInScreen-Key: Login--UjcuOzWOvEy8GPvSoePc
 */ 
 
 const LoginScreen = ({ navigation, route }) => {
-    const {colors} = EatsTheme()
-    const [isSignedIn, setisSignedIn]= useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [show, setShow] = useState(false);
     const [errors, setErrors] = useState('');
+    const [visible, setIsVisible] = useState(false);
 
+    console.log(route.params, 'LoginScreen ====');
+    console.log(route.key, 'LoginScreen $$$$$$');
+    // const { singInUser } = useContext(AuthContext);
+                           
+    //----Show button color on password input-----
     const handleClick = () => setShow(!show);
 
+    //---Remove form isInvalid and errors state---
+    const handleErrors = () => setIsVisible(true);
     
-    // Sign In for created user --- email/password
+    //----Sign In for created user with form/auth validation --- email/password-------
     const onSignIn = async () => {
-        await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log('-------------------------', user);
-            // setisSignedIn(true);
-            // navigation.route('HomeTab');
-            // console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-        };
-
-
-    //Custom form validation --- temporary
-    const formValidation = () => {
         let textInputs = [email, password];
     
         if(textInputs.includes('') || textInputs.includes(undefined)) 
         return setErrors('Form fields must be filled out.');
 
-        if(password.length > 8) 
-        return setErrors("Pasworrd is too short weak.");
+        if(!email.includes('@', '.com'))
+        return setErrors('Not valid email.');
 
-        // if(FirebaseError)
-        // return setErrors([errors]);
+        if(password.length < 8) 
+        return setErrors("Pasworrd is too short.");
 
-        // [FirebaseError: Firebase: Error (auth/invalid-email).]
-    
-         return onSignIn();
-      }
-    
-    // Nav functions for Screens buttons
-    const handleSubmit = () => {
+        await signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            console.log('LogIn Screen-------------------', user);
+        })
+          .catch((err) => {
+            alert(err.message);
+        })
+    };
+  
+    //----Nav functions for Screens buttons-------
+    const toForgotPass = () => {
         navigation.navigate('ForgotPass');
     };
     
-    const onRegisterAcc = () => {
+    const onRegisterZip = () => {
+        navigation.navigate('RegZip');
+    };
+    const onReg = () => {
         navigation.navigate('Register');
     };
+    const onPay = () => {
+        navigation.navigate('Payment');
+    };
     
-    // Checking currentUser state --- route to Home if true
-    if(isSignedIn === true ) {
-        return(
-            <HomeScreen />
-        );
-    }
+
     return (
     // ----------------Background Image---------------------------  
     <ImageBackground source={require('../assets/img/avo-tom.png')} 
@@ -95,133 +97,112 @@ const LoginScreen = ({ navigation, route }) => {
             }
         }
     >  
-    <SafeAreaView style={logStyles.parent} >
-        {/*------------Logo----------- */}
-        <Image source={require('../assets/img/PlanItEatsLogo-text-mobile.png')} 
-            accessibilityLabel='Text Logo.'
-                style={{
-                    width: '90%', 
-                    height: 80,
-                    marginTop: 40,
+        <SafeAreaView style={{ flex: 1, alignItems:'center' }} >
+            {/*------------Logo----------- */}
+            <Image source={require('../assets/img/PlanItEatsLogo-text-mobile.png')} 
+                accessibilityLabel='Text Logo.'
+                    style={{
+                        width: '90%', 
+                        height: 80,
+                        marginTop: 40,
+                        }
                     }
-                }
-        />
-        <Image source={require('../assets/img/PlanItEatsLogo-globe-mobile.png')} 
-            accessibilityLabel='Globe Logo.'
-                style={{
-                    width: 100, 
-                    height: 100, 
+            />
+            <Image source={require('../assets/img/PlanItEatsLogo-globe-mobile.png')} 
+                accessibilityLabel='Globe Logo.'
+                    style={{
+                        width: 100, 
+                        height: 100, 
+                        }
                     }
-                }
-        />        
-        
-        {/* ------LogIn Form ------------------- */}
-        <Box 
-            px='2' 
-            py="4" 
-            w="80%" 
-            maxW="300" 
-        >
-            <Heading 
-                size="lg" 
-                fontWeight="600" 
-                color="coolGray.800" 
-                _dark={{color: "warmGray.50"}}
+            />        
+
+                
+            {/* ------LogIn Form ------------------- */}
+            <Box 
+                p='2' 
+                py="4" 
+                w="80%" 
+                maxW="300" 
             >
-                Sign In!
-            </Heading>
-            <VStack space={3} mt="2">
-
-                {/* -------------Email Input------------------- */}
-                <EmailInput 
-                    placeholder='Email'
-                    autoCapitalize='none'
-                    onChangeText={userEmail => setEmail(userEmail)} 
-                />
-                {/* -------------Password Input------------------- */}
-                <PasswordShowInput 
-                    onChangeText={userPassword => setPassword(userPassword)}
-                    type={show ? "text" : "password"}
-                    InputRightElement={
-                        // button styles and state change
-                        <Button
-                            _ios={{
-                                bg:'#22c55e',
-                                _text: {
-                                    color: '#FFF'
-                                },
-                                _pressed:{ 
-                                    bg: '#d97706',
-                                        _text:{
-                                            color:'#000000'
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                             size="xs" 
-                             rounded="none" 
-                             w="1/5" 
-                             h="full" 
-                             onPress={handleClick}>
+                <Heading 
+                    size="lg" 
+                    fontWeight="600" 
+                    color="coolGray.800" 
+                >
+                    Sign In!
+                </Heading>
+                <VStack space={2} mt="2">
+                    
+                    {/* -------------Email Input------------------- */}
+                    <CustomInput 
+                        text='Email'
+                        placeholder='Email'
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        onChange={handleErrors}
+                        onChangeText={userEmail => setEmail(userEmail)}
+                        isInvalid={visible ? false : errors}
+                        errorMsg={visible ? false : errors} 
+                    /> 
+                    {/* -------------Password Input------------------- */}
+                    <PasswordShowInput
+                        text='Password'
+                        onChange={handleErrors} 
+                        onChangeText={userPassword => setPassword(userPassword)}
+                        type={show ? "text" : "password"}
+                        errorMsg={visible ? false : errors}
+                        isInvalid={visible ? false : errors}
+                        InputRightElement={
+                            // button styles and state change
+                            <Button
+                                bg={show ? '#d97706' : '#22c55e'}
+                                _text={{ 
+                                    color: show ? '#000' : '#FFF' 
+                                }}
+                                size="xs" 
+                                rounded="none" 
+                                w="1/5"
+                                h="full" 
+                                onPress={handleClick}
+                            >
                                 {show ? "Hide" : "Show"}
-                        </Button>
-                    }/>
+                            </Button>
+                        }/>
 
-                    {/* form error */}
-                    <Text alignSelf="flex-end" mt="1" color='error.700' fontSize='xs'> {errors}</Text>
-
-                    {/* ------Forgot Password Button------ */}
-                    <Link _text={{
-                        fontSize: "xs",
-                        fontWeight: "500",
-                        color: "indigo.500"
-                        }} 
-                        alignSelf="flex-end" mt="1"
-                        onPress={handleSubmit}
-                    >
-                      Forget Password?
-                    </Link>
-
-                    {/* ------OnToRegisterButton------ */}
-                    <HStack alignSelf="flex-end" mt="1" >
-                        <Text fontSize="sm"  
-                        fontWeight='500' 
-                        alignSelf="flex-end" 
-                        mt="1" color="coolGray.600" _dark={{
-                        color: "warmGray.200"
-                      }}>
-                          New user.{" "}
-                        </Text>
-                        <Link _text={{
-                            fontSize: "sm",
-                            fontWeight: "500",
-                            color: "indigo.500"
+                        {/* ------Forgot Password Button------ */}
+                        <Button 
+                            size='xs'
+                            variant='ghost'
+                            onPress={toForgotPass}
+                            _text={{
+                                fontSize: "xs",
+                                fontWeight: "500",
+                                color: "indigo.500"
                             }} 
-                            alignSelf="flex-end" mt="1"
-                            onPress={onRegisterAcc}
+                            alignSelf="flex-end" 
                         >
-                            Sign Up
-                        </Link>
-                    </HStack>
-             </VStack>
-      </Box> 
-      {/* -------Form Button-------- */}
-      <FormButton 
-          text='Sign In' 
-          onPress={formValidation} 
-          bdColor='#22c55e'
-      />
-    </SafeAreaView>
+                          Forgot Password? 
+                        </Button>
+                 </VStack>
+          </Box> 
+                        
+            {/* -------Form Button--SignIn-------- */}
+            <FormButton 
+                text='Sign In' 
+                onPress={onSignIn} 
+                bdColor='#22c55e'
+            />
+
+            {/* ----Form Button--onRegisterZipButton---- */}
+            <FormButton 
+                text='Sign Up' 
+                onPress={onRegisterZip} 
+                bdColor='#080938'
+            /> 
+        </SafeAreaView>
     </ImageBackground> 
     );
 };
-
-export const logStyles = StyleSheet.create({
-    parent: {
-        flex: 1,
-        alignItems: 'center',
-    },
-});
 
 export default LoginScreen;

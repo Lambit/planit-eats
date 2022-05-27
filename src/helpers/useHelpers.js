@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 // Firebase
-import { getAuth } from 'firebase/auth';
+import { auth} from '../firebase-config';
+import { setPersistence, signInWithEmailAndPassword, } from "firebase/auth";
 import { FirebaseError } from 'firebase/app';
 
 /* -----Helpers-----
@@ -10,11 +11,94 @@ import { FirebaseError } from 'firebase/app';
   Errors then export the helpers into a context provider.
  */ 
 
-export default function useHelpers({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+// function useHelpers({ navigation }) {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
 
+// -----------------LoginScren-------------------------------------------------------
+  export default async function onSignIn() {
+    await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('-------------------------', user);
+    })
+      .catch((err) => {
+        alert(err.message);
+    })
+  };
+  // const validateFirstName = () => {
+  //   if(textInputs.includes('') || textInputs.includes(undefined)) 
+  //    return setErrors({
+  //     ...errors,
+  //     name: 'Form fields must be filled out.',
+  //   });
+  //   if (!email.includes('@', '.com')) 
+  //     return setErrors({
+  //       ...errors,
+  //       name: 'Not valid email.',
+  //     });
+  //   if (password.length < 8) 
+  //     return setErrors({
+  //       ...errors,
+  //       name: 'Pasworrd is too short.',
+  //     });
+  //   if (!passwordMatch) 
+  //     return setErrors({
+  //       ...errors,
+  //       name: 'Passwords do not match.',
+  //     });
+  //   }
+    // ----------------Form validation---------------
+  // const formValidation = () => {
+  //   let textInputs = [email, password, passwordConfirm];
+  //   let passwordMatch = password === passwordConfirm;
 
+  //   if(textInputs.includes('') || textInputs.includes(undefined)) 
+  //   return setFormError('Form fields must be filled out.');
+
+  //   if(!passwordMatch) return setFormError('Passwords do not match.');
+
+  //   if(passwordMatch) return registerUser(); 
+  // }
+
+    //   //----Sign In for created user --- email/password-------
+    //   const formValidation = async () => {
+    //     let textInputs = [email, password];
+    
+    //     if(textInputs.includes('') || textInputs.includes(undefined)) 
+    //     return setErrors('Form fields must be filled out.');
+
+    //     if(!email.includes('@', '.com'))
+    //     return setErrors('not valid email');
+
+    //     if(password.length < 8) 
+    //     return setErrors("Pasworrd is too short.");
+    //     try {
+    //     await singInUser( email, password);
+    //     } catch (err) {
+    //         console.log(err.message);
+    //     }
+    // };
+
+        //----------Form validation -----------
+    // calls onSignIn if validation is passed, handled by the sign in button 
+    // const formValidation = () => {
+    //     let textInputs = [email, password];
+    
+    //     if(textInputs.includes('') || textInputs.includes(undefined)) 
+    //     return setErrors('Form fields must be filled out.');
+
+    //     if(!email.includes('@', '.com'))
+    //     return setErrors('not valid email');
+
+    //     if(password.length < 8) 
+    //     return setErrors("Pasworrd is too short.");
+
+    //     return onSignIn();
+    // }
+
+  
+// ------------------homeScreen-------------------------------------------------
   // set user to current state
     async function setCurrentUser() {
       const auth = { getAuth };
@@ -28,18 +112,7 @@ export default function useHelpers({ navigation }) {
       }
     };
 
-    // login with email and pass -- generates a new token on refresh
-    async function login() {
-        await signInWithEmailAndPassword(auth, email, password)
-        .then((res) => {
-            console.log(res)
-            setUser(true);
-        })
-        .catch((e) => {
-            console.log(e);
-        })
-    };
-
+// ------------------registerScreen------------------------------------------------
     // registers new user  ---- emial isnt verified
     async function  register() {
         await createUserWithEmailAndPassword(auth, email, password)
@@ -51,52 +124,43 @@ export default function useHelpers({ navigation }) {
         })
     };
 
-    // signnOut works but sketchy loloololol
-    async function signout() {
-        await signOut()
-        .then((res) => {
-        })
-        .catch((e) => {
-          console.error(e)
-        })
-    };
-
+// ------------------potential useCase functions-------------------------------------
     // Using a redirect.
-    firebase.auth().getRedirectResult().then(function(result) {
-      if (result.credential) {
+    // firebase.auth().getRedirectResult().then(function(result) {
+    //   if (result.credential) {
         // This gives you the OAuth Access Token for that provider.
-        var token = result.credential.accessToken;
-      }
-      var user = result.user;
-    });
+    //     var token = result.credential.accessToken;
+    //   }
+    //   var user = result.user;
+    // });
 
     // Bassic OAuth
     // Start a sign in process for an unauthenticated user.
-    var provider = new firebase.auth.OAuthProvider('google.com');
-    provider.addScope('profile');
-    provider.addScope('email');
-    firebase.auth().signInWithRedirect(provider);
+    // var provider = new firebase.auth.OAuthProvider('google.com');
+    // provider.addScope('profile');
+    // provider.addScope('email');
+    // firebase.auth().signInWithRedirect(provider);
 
     // Using a popup.
-    var provider = new firebase.auth.OAuthProvider('google.com');
-    provider.addScope('profile');
-    provider.addScope('email');
-    firebase.auth().signInWithPopup(provider).then(function(result) {
+    // var provider = new firebase.auth.OAuthProvider('google.com');
+    // provider.addScope('profile');
+    // provider.addScope('email');
+    // firebase.auth().signInWithPopup(provider).then(function(result) {
      // This gives you the OAuth Access Token for that provider.
-     var token = result.credential.accessToken;
+    //  var token = result.credential.accessToken;
      // The signed-in user info.
-     var user = result.user;
-    });
+    //  var user = result.user;
+    // });
 
 
-          return (
-            user,
-            setCurrentUser,
-            login,
-            register,
-            signout
-          );
-};
+//           return (
+//             user,
+//             setCurrentUser,
+//             login,
+//             register,
+//             signout
+//           );
+// };
 
 // Android firebase bugs links phone auth-----------------------------------------
   // The debug signing certificate is optional to use Firebase with your app, but is 

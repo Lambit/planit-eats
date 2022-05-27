@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import {  SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 
 // Components
 import HorizontalMenuBar from '../components/horizontal-menu-bar/HorizontalMenuBar';
 import MenuLayout from '../components/menu-layout/MenuLayout';
 import { ChickenMealsData } from '../data/ChickenMealsData';
+
+//Packages
+import { Box, Heading } from 'native-base';
 
 /*-----ChickenScreenMenu-----
   Menu Screen displayed, mapping chicken data, through MenuLayout and displaying it.
@@ -12,48 +15,37 @@ import { ChickenMealsData } from '../data/ChickenMealsData';
 
 const ChickenMenuScreen = () => {
     const { chicken } = ChickenMealsData;
+    console.log(route.params, 'ChickenMenuScreen ====');
+    console.log(route.key, 'ChickenMenuScreen $$$$$$');
   return (
-    //Safey area wrapper with styles
-    <SafeAreaView style={homeStyles.safeAreaContainer}>
-        <HorizontalMenuBar />
-    <ScrollView>
-        {/* Page Title ----------------------------------- */}
-        <View>
-            <Text style={homeStyles.homeTitle}>Chicken</Text>
-        </View>
-        {/* Mapped Coral Data ---------------------------- */}
-        <View style={homeStyles.mappedDataContainer}>
+    <Box safeArea='1' bg='#080930'>
+        <Heading fontSize="xl" p="4" pb="3" my='3' bg='#FFF'>
+          Pick Your Meals!
+        </Heading>
+        <ScrollView>
             {chicken.map((food) => (
                 <MenuLayout key={food.id} food={food} />
             ))}
-        </View>    
-    </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+    </Box>
   );
 };
 
 export default ChickenMenuScreen;
 
-export const homeStyles = StyleSheet.create({
-    safeAreaContainer: {
-        flex: 1,
-    },
-    homeTitle: {
-        color: '#000',
-        fontSize: 40,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        borderColor: '#000',
-        borderWidth: 2,
-        borderRadius: 8,
-        margin: 20,
-        padding: 10,
-    },
-    mappedDataContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        textItems: 'center',
-        justifyContent: 'center',
-    },
-});
+    //Safey area wrapper with styles
+    // <SafeAreaView style={homeStyles.safeAreaContainer}>
+    //     <HorizontalMenuBar />
+    // <ScrollView>
+    //     {/* Page Title ----------------------------------- */}
+    //     <View>
+    //         <Text style={homeStyles.homeTitle}>Chicken</Text>
+    //     </View>
+    //     {/* Mapped Coral Data ---------------------------- */}
+    //     <View style={homeStyles.mappedDataContainer}>
+    //         {chicken.map((food) => (
+    //             <MenuLayout key={food.id} food={food} />
+    //         ))}
+    //     </View>    
+    // </ScrollView>
+    // </SafeAreaView>

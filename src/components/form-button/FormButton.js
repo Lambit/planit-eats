@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native-paper';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 /* -----Form Button-----
     Buttons to be implimented and utilized throught web app, with 
@@ -36,12 +35,19 @@ const FormButton = ({ onPress, text, type , bdColor, fgColor }) => {
 const styles = StyleSheet.create({
     button: {
       padding: 18, 
-      marginTop: 40,
+      marginTop: 20,
       width: '60%', 
-      borderRadius: 5,
+      borderRadius: 8,
       justifyContent: 'center',
       alignItems: 'center',
-      elevation: 5
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      shadowColor: 'black',
+      shadowOffset: {
+      height: 4,
+      width: 4,
+      },
+      elevation: 1,
     },
     text: {
       color: 'white', 

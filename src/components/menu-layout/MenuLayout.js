@@ -1,31 +1,81 @@
-import React from 'react';
-import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Image, StyleSheet } from 'react-native';
+
+// Components
+import QuickAddIcon from '../quick-add-icon/QuickAddIcon';
+import { CartContext } from '../../navigation/context/CartContext';
+
+// Packages
+import { Box, Badge, Heading,  HStack, Divider, } from 'native-base';
 
 /* -----------MenuLayout----------
     Page layout for all menus listed
 */ 
 
-const MenuLayout = (props)  => {
+const MenuLayout = (props, onPress, onClick )  => {
     const { food } = props;
+    const { addToCart } = useContext(CartContext);
+    const [modalActive, setModalActive]= useState(false);
+    
   return (
-  
-    <View style={styles.container}>  
-        <TouchableOpacity 
-            onPress={() => console.warn('pressed')}>
-                <Image 
-                    source={food.image} 
-                    alt={food.name} 
-                    style={styles.foodImg} 
-                />
-            <Text style={styles.foodName}>
-                {food.name}
-            </Text>
+    <TouchableOpacity style={styles.card} onPress={addToCart}>
 
-            <Text style={styles.foodPrice}>
-                ${food.price}
-            </Text>
-        </TouchableOpacity>
-    </View>
+        <Image 
+              source={food.image} 
+              alt={food.name} 
+              style={{
+                width: '100%',
+                height: 250,
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
+              }} 
+        />
+        <Box p='4'>
+          <Heading 
+            size="xl"
+            textAlign='center' 
+            fontWeight="400" 
+            color= '#080930'
+          >
+              {food.name}
+          </Heading> 
+
+          <Divider m='2' alignSelf='center' />
+
+        {/* <Text>{vitamin}</Text> */}
+        <HStack space={2} justifyContent='space-between' p='2'>
+          <Badge variant='solid' _text={{ textAlign: 'center', fontSize: '10' }} >Calories: {food.cal}</Badge>
+          <Badge variant='solid' _text={{ textAlign: 'center', fontSize: '10' }} >Carbs: {food.carb}</Badge>
+          <Badge variant='solid' _text={{ textAlign: 'center', fontSize: '10' }} >Protein: {food.protein}</Badge>
+          <Badge variant='solid' _text={{ textAlign: 'center', fontSize: '10' }} >Fat: {food.fat}</Badge>
+          <Badge variant='solid' _text={{ textAlign: 'center', fontSize: '10' }} >Sodium: {food.sod}</Badge> 
+        </HStack>
+
+        <Divider m='2' alignSelf='center' />
+
+        <HStack justifyContent='space-between' p='2'>
+        {/*-----------Small Globe Logo---------------------- */} 
+        <Image source={require('../../assets/img/PlanItEatsLogo-globe-mobile.png')} 
+          accessibilityLabel='Globe Logo.'
+          style={{
+              width: 50, 
+              height: 50,
+              shadowOpacity: 0.3,
+              shadowRadius: 4,
+              shadowColor: 'black',
+              shadowOffset: {
+                height: 0,
+                width: 2,
+              }
+            }}
+          />
+          <QuickAddIcon onClick={addToCart} />
+        
+          </HStack>
+            </Box>
+    </TouchableOpacity>
+    
+  
 
   );
 };
@@ -33,35 +83,17 @@ const MenuLayout = (props)  => {
 export default MenuLayout;
 
 const styles = StyleSheet.create({
-    // Coral Data
-    container:{
-        margin: 8,
-        padding: 2,
-        textAlign: 'center',
-        alignItems: 'center',
-        borderColor: '#000',
-        borderWidth: 1,
-        borderRadius: 10,
-       
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {
+      height: 0,
+      width: 0,
     },
-    foodImg:{
-        width: 150,
-        height: 150,
-        margin: 10,
-        borderColor: '#000',
-        borderWidth: 1,
-        borderRadius: 8,
-    },
-    foodName:{
-        color: '#000',
-        fontWeight: '800',
-        marginBottom: 10,
-        textAlign: 'center'
-    },
-    foodPrice:{
-        color: '#dc2626',
-        fontWeight: '600',
-        textAlign: 'center',
-        marginBottom: 10,
-    },
+    elevation: 1,
+    marginVertical: 20,
+  }
 });

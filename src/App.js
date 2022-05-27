@@ -1,27 +1,34 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import {SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
-import { NativeBaseProvider, extendTheme } from "native-base";
-import eatsTheme from './assets/theme/theme';
+import  React from 'react';
+import { PUB_KEY } from '@env'
+import {SafeAreaProvider, initialWindowMetrics, } from 'react-native-safe-area-context';
+import { CartProvider } from './navigation/context/CartContext';
+import { AuthProvider } from './navigation/context/AuthContext';
 import { NavigationContainer } from '@react-navigation/native';
-import { StackOrTabsNav } from './navigation/stack-nav/stacks-or-tabs/StackOrTabsNav';
-import { StatusBar } from 'react-native';
-import { getAuth } from 'firebase/auth';
+import { StackOrTabsNav } from './navigation/stack-nav/StackOrTabsNav';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import { StatusBar } from 'native-base';
 
 
-
-const App = () => {
+const App = () => {  
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <NativeBaseProvider eatsTheme={eatsTheme} >
-        <NavigationContainer >
-            <StackOrTabsNav />
-            <StatusBar />
-        </NavigationContainer>
-      </NativeBaseProvider>
-    </SafeAreaProvider>
+    <AuthProvider>
+      <CartProvider >
+        <StripeProvider 
+          publishableKey={PUB_KEY}
+        >
+          <StatusBar 
+            bg='#000'
+            barStyle="light-content"
+            translucent
+          />
+          <NavigationContainer>
+            <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+                <StackOrTabsNav />
+            </SafeAreaProvider>
+          </NavigationContainer>
+          </StripeProvider>
+      </CartProvider>
+    </AuthProvider>
   ); 
-
 };
-
 export default App;
