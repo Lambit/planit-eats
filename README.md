@@ -30,7 +30,7 @@
  A horizontal scroll bar is fixed at the top of the auth routes. This scroll bar has PlanIt Eats menus broken up into segments to get quick access to selected menu. In the data folder is menu data for each meal, which is passed through props. On selected menu screen the data is passed through the MenuLayout component and mapped to display all the menus meals. A meal can be clicked and a modal is propted with more information about the currently selected meal.
 
 ## Purchase without Registration 
-<img src='https://user-images.githubusercontent.com/61482651/170769281-999c28cd-c7a6-451d-bd95-06554f06fe1f.png' width="400" height="800">    <img src='https://user-images.githubusercontent.com/61482651/170769465-426554b5-c003-4955-918f-6aa3b784a265.png)' width="400" height="800">
+<img src='https://user-images.githubusercontent.com/61482651/170769281-999c28cd-c7a6-451d-bd95-06554f06fe1f.png' width="400" height="800">    <img src='https://user-images.githubusercontent.com/61482651/170769465-426554b5-c003-4955-918f-6aa3b784a265.png' width="400" height="800">
 
 
 If a user doesn't have an account the sign up button proceeds them to a quick buy option without registration or registation screen. The quick buy route users enter email, pick a Meal Plan, select which meals they want then proceed to checkout.
