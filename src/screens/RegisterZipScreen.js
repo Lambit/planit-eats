@@ -74,6 +74,7 @@ const RegisterZipScreen = ({ navigation, route }) => {
     //     console.error(error);
     //   });
     // };
+    
 
     const nothingAttached = () => {
         navigation.navigate('SelectMeal', { 

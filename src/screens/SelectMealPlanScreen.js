@@ -29,6 +29,7 @@ const SelectMealPlan = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [box, setBox] = useState([]);
   
+  
 //   Call when component is rendered
 useEffect(() => {
 const getBox = async () => {
@@ -41,8 +42,6 @@ const getBox = async () => {
 }
 getBox();
 }, []);
-
-
 
 
   function renderPlan({ item: plan }) {

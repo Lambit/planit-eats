@@ -21,6 +21,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 
+*GoogleService-Info.plist
+
 # Android/IntelliJ
 #
 build/
@@ -59,6 +61,7 @@ buck-out/
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+
 
 # Added------
 .env
