@@ -8,10 +8,10 @@ import { FormControl, Input } from 'native-base';
   is passed down in props. Which most likely wil happen.
 */ 
 
-const CustomInput = ({ text, onChangeText, onBlur, autoCapitalize, placeholder, isInvalid, value, onChange, onFocus, keyboardType, errorMsg}) => {
+const CustomInput = ({ text, onChangeText, onBlur, autoCapitalize, placeholder, isInvalid, value, size, onChange, onFocus, keyboardType, errorMsg }) => {
   return (
  
-       <FormControl isInvalid={isInvalid}>
+       <FormControl isInvalid={isInvalid} maxW="300">
         <FormControl.Label  
            _text={{ 
              color: 'black', 
@@ -21,6 +21,7 @@ const CustomInput = ({ text, onChangeText, onBlur, autoCapitalize, placeholder, 
              opacity:'.8',
              borderColor:'#bbf7d0',
              borderWidth: 2,
+             fontSize: 'xs',
            }}
            
         >
@@ -47,6 +48,7 @@ const CustomInput = ({ text, onChangeText, onBlur, autoCapitalize, placeholder, 
           py='4' 
           bg='coolGray.300' 
           variant="filled"
+          size={size}
           autoCapitalize={autoCapitalize}
           placeholder={placeholder}
           value={value}

@@ -2,9 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 //Packages
-import { Box, Heading, Divider, HStack, Badge, IconButton, Icon } from 'native-base';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { Box, Heading, Divider, HStack, Badge, IconButton, Icon, AddIcon } from 'native-base';
 
 /*-----MealLayout-----
   Meal layout is a mapped section for the List that with contain the Meals data.
@@ -57,19 +55,19 @@ export function MealLayout({
               style={{
                   width: 50, 
                   height: 50,
-                  shadowOpacity: 0.3,
-                  shadowRadius: 4,
-                  shadowColor: 'black',
-                  shadowOffset: {
-                    height: 0,
-                    width: 2,
-                  }
+                  // shadowOpacity: 0.3,
+                  // shadowRadius: 4,
+                  // shadowColor: 'black',
+                  // shadowOffset: {
+                  //   height: 0,
+                  //   width: 2,
+                //   }
                 }}
               />
 
-              <IconButton
+              {/* <IconButton
                 icon={
-                  <Icon as={Ionicons} name="add-circle" size={50} onClick={onClick}/>
+                  <Icon as={AddIcon} size={50} onClick={onClick}/>
                 } borderRadius='full' p='1' shadow='4' 
                 _icon={{
                   color: '#166534',
@@ -92,7 +90,7 @@ export function MealLayout({
                     }
                   }
                 }}
-              />
+              /> */}
           </HStack>
           </Box>
         </TouchableOpacity>
@@ -105,12 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    shadowColor: 'black',
-    shadowOffset: {
-      height: 0,
-      width: 0,
-    },
-    elevation: 1,
-    marginVertical: 20,
+    // shadowColor: 'black',
+    // marginVertical: 20,
   }
 });

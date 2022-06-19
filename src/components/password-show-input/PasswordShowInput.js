@@ -5,7 +5,7 @@ import { FormControl, Input } from 'native-base';
   Password input with a button that toggles hide/show text on selected field.
 */ 
 
-const PasswordShowInput = ({onChangeText, type, InputRightElement, isInvalid, errorMsg, text}) => {
+const PasswordShowInput = ({onChangeText, type, InputRightElement, isInvalid, errorMsg, text, value }) => {
   return (
     <>
       {/* -------------Password Input------------------- */}
@@ -19,6 +19,7 @@ const PasswordShowInput = ({onChangeText, type, InputRightElement, isInvalid, er
               p:'1',
               borderColor:'#bbf7d0',
               borderWidth: 2,
+              fontSize: 'xs',
             }}
           >
              {text}
@@ -48,6 +49,7 @@ const PasswordShowInput = ({onChangeText, type, InputRightElement, isInvalid, er
             placeholder="Password"
             autoCapitalize='none'
             // onChange={setErrors('')}
+            value={value}
             onChangeText={onChangeText}
             type={type} 
             InputRightElement={InputRightElement}

@@ -60,13 +60,13 @@ const MenuLayout = (props, onPress, onClick )  => {
           style={{
               width: 50, 
               height: 50,
-              shadowOpacity: 0.3,
-              shadowRadius: 4,
-              shadowColor: 'black',
-              shadowOffset: {
-                height: 0,
-                width: 2,
-              }
+              // shadowOpacity: 0.3,
+              // shadowRadius: 4,
+              // shadowColor: 'black',
+              // shadowOffset: {
+              //   height: 0,
+              //   width: 2,
+              // }
             }}
           />
           <QuickAddIcon onClick={addToCart} />
@@ -86,14 +86,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'white',
     borderRadius: 16,
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    shadowColor: 'black',
-    shadowOffset: {
-      height: 0,
-      width: 0,
-    },
-    elevation: 1,
-    marginVertical: 20,
+    // shadowOpacity: 0.2,
+    // shadowRadius: 4,
+    // shadowColor: 'black',
+    // marginVertical: 20,
   }
 });

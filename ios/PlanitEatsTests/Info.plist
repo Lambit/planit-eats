@@ -4,8 +4,22 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
+	<key>UILaunchScreens</key>
+	<dict>
+		<key>UILaunchScreenDefinitions</key>
+		<array>
+			<dict>
+				<key>UILaunchScreenIdentifier</key>
+				<string></string>
+				<key>UIImageName</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>UIURLToLaunchScreenAssociations</key>
+		<dict/>
+		<key>UIDefaultLaunchScreen</key>
+		<string></string>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

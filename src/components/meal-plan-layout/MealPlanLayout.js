@@ -7,7 +7,7 @@ import { Pressable, Box, VStack, Text, } from 'native-base';
   Payge layout to render a Flatlist for the SelectMealPlanScreen, props are assined and passed. To be defined later in the function renderPlan().
 */ 
 
-const MealPlanLayout = ({ id, name, qty, price, onPress, bg, borderColor, color, text }) => {
+const MealPlanLayout = ({ id, name, metadata, qty, price, onPress, bg, borderColor, color, text, mealPrice }) => {
   return (
     <Pressable 
       w='40'
@@ -38,11 +38,13 @@ const MealPlanLayout = ({ id, name, qty, price, onPress, bg, borderColor, color,
           </Text>
 
           <Text color={color}textAlign='center' > 
-            {qty} Meals
+            {metadata.meals} Meals
+            {/* {meals} Meals */}
           </Text>
 
           <Text color={color}textAlign='center' paddingBottom='3'> 
-            ${price} 
+            ${metadata.price} 
+            {/* ${price}  */}
           </Text>
         </VStack> 
       </Box>   
@@ -51,3 +53,7 @@ const MealPlanLayout = ({ id, name, qty, price, onPress, bg, borderColor, color,
 };
 
 export default MealPlanLayout;
+
+
+
+

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {SafeAreaProvider, initialWindowMetrics, } from 'react-native-safe-area-context';
 
 // Firebase
 import { auth } from '../../firebase-config';
@@ -12,8 +13,9 @@ import LoginScreen from '../../screens/LoginScreen';
 import RegisterZipScreen from '../../screens/RegisterZipScreen';
 import SelectMealPlanScreen from '../../screens/SelectMealPlanScreen';
 import AddMealsToPlanScreen from '../../screens/AddMealsToPlanScreen';
-import CartScreen from '../../screens/CartScreen';
-import PaymentScreen from '../../screens/PaymentScreen';
+import BillingScreen from '../../screens/BillingScreen';
+import CheckoutScreen from '../../screens/CheckoutScreen';
+import SuccessScreen from '../../screens/SuccessScreen';
 import { CartIcon } from '../../components/cart-icon/CartIcon';
 import RegisterScreen from '../../screens/RegisterScreen';
 import ForgotPasswordScreen from '../../screens/ForgotPasswordScreen';
@@ -21,16 +23,13 @@ import NewPasswordScreen from '../../screens/NewPasswordScreens';
 
 // TabsScreens
 import HomeScreen from '../../screens/HomeScreen';
-import ChickenMenuScreen from '../../screens/ChickenMenuScreen';
 import LoadingScreen from '../../screens/LoadingScreen';
 
 // Test
 import { MealMenuScreen } from '../../screens/MealMenuScreen';
 import { MealModalInfoScreen } from '../../screens/MealModalInfoScreen';
-import { Cart } from '../../screens/Cart';
+import { CartScreen } from '../../screens/CartScreen';
 
-// Icons
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -60,6 +59,7 @@ export const StackOrTabsNav = () => {
       /* -------TAB-ROUTES------
             Home---->Profile...
       */
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <Tab.Navigator 
         initialRouteName='HomeTab'
           screenOptions={({ route }) => ({
@@ -75,6 +75,7 @@ export const StackOrTabsNav = () => {
         <Tab.Screen name='HomeTab' component={HomeScreen} />
         <Tab.Screen name='Chicken' component={ChickenMenuScreen} />
       </Tab.Navigator>
+      </SafeAreaProvider>
     );
   } else {
     return (
@@ -90,7 +91,7 @@ export const StackOrTabsNav = () => {
 
       Login--->ForgotPassword then Forgotpassword--->NewPassword or FP--->(back)Login
       */
-
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <Stack.Navigator  initialRouteName='Login' 
         screenOptions={{
           headerMode: 'screen',
@@ -128,19 +129,26 @@ export const StackOrTabsNav = () => {
           headerRight: () => <CartIcon navigation={navigation} />,
           })} 
         />
-        <Stack.Screen name='Cart' component={Cart} 
+        <Stack.Screen name='Cart' component={CartScreen} 
           options={({ navigation }) => ({
           headerRight: () => <CartIcon navigation={navigation} />,
           })} 
         />
-        <Stack.Screen name='Payment' component={PaymentScreen} 
+        <Stack.Screen name='Billing' component={BillingScreen} 
+          options={({ navigation }) => ({
+          headerRight: () => <CartIcon navigation={navigation} />
+          })}
+        />
+        <Stack.Screen name='Checkout' component={CheckoutScreen} 
           options={({ navigation }) => ({
           headerRight: () => <CartIcon navigation={navigation} />,
           })} 
         />
+        <Stack.Screen name='Success' component={SuccessScreen} />
         <Stack.Screen name="ForgotPass" component={ForgotPasswordScreen} />
         <Stack.Screen name="NewPass" component={NewPasswordScreen} />
       </Stack.Navigator>
+      </SafeAreaProvider>
     );
   }
 };

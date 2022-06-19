@@ -3,7 +3,7 @@ import { FlatList, StyleSheet } from 'react-native';
 
 //Components
 import { MealLayout } from '../components/meal-layout/MealLayout';
-import { getMeals } from '../data/ChickenMealsData.js';
+import { getChicken } from '../data/chicken/ChickenData';
 
 /*-----MealList-----
     MealList imports the Meal layout component as well as the get meals function.
@@ -38,21 +38,12 @@ function renderMeal({ item: meal }) {
   return (
     <FlatList
       style={{backgroundColor: '#EEE'}}
-      contentContainerStyle={styles.productsListContainer}
+      contentContainerStyle={{backgroundColor: '#EEE', paddingVertical: 8, marginHorizontal: 8,}}
       keyExtractor={(item) => item.id.toString()}
       data={meals}
       renderItem={renderMeal}
     />
   );
 }
-const styles = StyleSheet.create({
-  productsList: {
-    backgroundColor: '',
-  },
-  productsListContainer: {
-    backgroundColor: '#EEE',
-    paddingVertical: 8,
-    marginHorizontal: 8,
-  },
-});
+
 

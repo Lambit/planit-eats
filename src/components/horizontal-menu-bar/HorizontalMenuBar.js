@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 // Packages
-import Feather from "react-native-vector-icons/Feather";
 import { HStack, Center, ScrollView, Button } from 'native-base';
 
 /*-----HorizontalMenuBar-----

@@ -5,20 +5,14 @@ import { View, Button, Alert, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 
-const CustomAlert = () => {
+const CustomAlert = ({navigation, route}) => {
     Alert.alert(
-      "Great Choices!",
-      "Proceed to checkout!",
+      'Success', 'Your order is confirmed!',
       [
         {
           text: "OK",
-          onPress: () => seeCart(),
+          onPress: () => navigation.navigate('Login'),
         },
-        { 
-            text: "Cancel", 
-            onPress: () => selectAgain(),
-            style: "cancel"
-        }
       ]
     );
 
@@ -26,7 +20,7 @@ const CustomAlert = () => {
 
   return (
     <View style={styles.container}>
-      <Button title={"2-Button Alert"} onPress={CustomAlert} />
+      <Button title={"successAlert"} onPress={CustomAlert} />
     </View>
   );
 }

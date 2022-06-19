@@ -1,15 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
 
+// Firebase
+import { auth } from '../firebase-config';
+import { db } from '../firebase-config';
+import { getDocs,  collection, } from 'firebase/firestore';
+
 // Components
-import { getPlanById } from '../data/meal-plans/mealPlanData';
-import { getMeals } from '../data/ChickenMealsData.js';
 import { CartContext } from '../navigation/context/CartContext';
 import { QuickBuyMenuLayout } from '../components/quick-buy-menu-layout/QuickBuyMenuLayout';
-import { formatCurrency } from '../utils/formatCurrency';
+import FormButton from '../components/form-button/FormButton';
+import LoadingScreen from './LoadingScreen';
 
 // Packages
-import { Box, Divider, Heading,  HStack,  VStack, Text, FlatList, Center, Button } from 'native-base';
-
+import { Box, Divider, Heading,  HStack,  VStack, FlatList, Center,} from 'native-base';
 
 /*-----AddMealsToPlanScreen----- 
   key = AddMeal-iwbRpivExxxZXWWdeBOGN
@@ -18,100 +21,154 @@ import { Box, Divider, Heading,  HStack,  VStack, Text, FlatList, Center, Button
 */ 
 
 const AddMealsToPlanScreen = ({ navigation, route }) => { 
-  const { items, addPlanToCart, addItemToCart, getItemsCount, getTotalPrice } = useContext(CartContext);
-  const { email, zip, planId, mealId, planPrice } = route.params;
-  const [planState, setPlanState] = useState({});
+  const { items, addItemToCart, getItemsCount, } = useContext(CartContext);
+  const { email, zip, planId,  planPrice, planName, planQty, mealPrice } = route.params;
+  const [isLoading, setIsLoading] = useState(false);
+  /* Set meals data state to an array to be used in a flatlist */ 
+  const [meals, setMeals] = useState([]);
+
+  // ---------------get all meals----------------
+  // Call when component is rendered
+  useEffect(() => {
+    const getMealData = async () => {
+        const querySnapshot = await getDocs(collection(db, "meals"));
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          // console.log(doc.id, " => ", doc.data());
+              setMeals(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+        })
+    }
+    getMealData();
+  }, []);
+
+  console.log(mealPrice);
+
   const seeCart = () => {
     navigation.navigate('Cart', {
       email: email,
       zip: zip,
       planId: planId,
       planPrice: planPrice,
+      planName: planName,
+      planQty: planQty,
     });
   };
 
-  useEffect(() => {
-    setPlanState(getPlanById(planId));
-    console.log(planId, mealId, 'planId-------------------');
-  });
+    /* 
+    Render <QuickBuyMenuLayout and spread the props. Navigation function
+      to CartScreen with params of data sent. onAddToCart once meal.id equals
+      Bulk-Box meal quantity send user to cart.
+  */ 
   function renderMeal({ item: meal }) {
+    const seeCart = () => {
+      navigation.navigate('Cart', {
+        email: email,
+        zip: zip,
+        planId: planId,
+        planPrice: planPrice,
+        planName: planName,
+        planQty: planQty,
+        
+      });
+    };
+
     const onAddToCart = () =>  {
-      addItemToCart(meal.id);
-      if(items.length  === planState.qty - 1)
-      return seeCart(); 
+      addItemToCart(meal);
+      if(planQty == [items.length + 1])
+      return seeCart();
     }
+    
     return (
         // Meal componant instance
         <QuickBuyMenuLayout 
-          {...meal} 
+          {...meal} key={items.id}
           onPress={() => {
               onAddToCart();
-            }}
-         
+            }}   
         />
-
     );
   }
 
-  const [meals, setMeals] = useState([]);
-
-  useEffect(() => {
-    setMeals(getMeals());
-  });
-   
-  console.log(planState, 'planState-------------------');
-  console.log(route.params, 'AddMealsScreen ====');
-  console.log(route.key, 'AddMealsScreen $$$$$$');
-  // console.log(getTotalPrice);
-  // console.log(planState.price);
-
+  // useEffect(() => {
+  //   setMeals(getMeals());
+  // });
+  
+   /* -------flatlist veiw--------------------- */ 
   return (    
   <>
     <Heading fontSize="xl"  p='6' bg='#FFF'>
       Pick Your Meals!
     </Heading>
 
-    <FlatList
-      style={{backgroundColor: '#EEE'}}
-      contentContainerStyle={{backgroundColor: 'coolGrey.300', marginHorizontal: 2,}}
-      keyExtractor={(item) => item.id.toString()}
-      data={meals}
-      renderItem={renderMeal}
-      extraData={route.params}
-    />
-    <Box safeArea='1' h="320" w="100%" bg='#000' borderTopLeftRadius='8' >
-          <HStack mx='6' justifyContent='space-between' >
-            <Heading alignContent='center' fontSize="xs" p="2" mt='3' color='#EEE'>
-              Meal Plan
-            </Heading>
-            <Heading alignContent='center'  fontSize="xs" p="2"  mt='3' color='#EEE'>
-              Cart Price
-            </Heading>
-            <Heading  fontSize="xs" p="2" mt='3' color='#EEE'>
-              Meal Count
-            </Heading>
-          </HStack>
+    { isLoading 
+    ? 
+      <LoadingScreen /> 
+    : 
+      <FlatList
+        style={{backgroundColor: '#EEE'}}
+        contentContainerStyle={{backgroundColor: 'coolGrey.300', marginHorizontal: 2,}}
+        keyExtractor={(item) => item.id.toString()}
+        data={meals}
+        renderItem={renderMeal}
+        extraData={route.params}
+      /> 
+    }
 
-            <Divider w='90%' alignSelf='center' m='2' mb='4' thickness='2' />
-              <HStack mx='6' justifyContent='space-between' >
-                <Heading  fontSize="md" p="4" pb="3" mr='4' mb='3' bg='#EEE'>
-                  {planState.name}
-                </Heading>
-                <Heading  fontSize="md" p="4" pb="3" mr='10' mb='3' bg='#EEE'>
-                {formatCurrency(getTotalPrice())}
-                </Heading>
-                <Heading  fontSize="md" p="4" pb="3" mr='4' mb='3' bg='#EEE'>
-                  {getItemsCount()}
-                </Heading>
-              </HStack>
-                <Center>
-                  <VStack space='4' mt='2'>
-                    <Text color='#FFF' textAlign='center' >{`${email}`}</Text>
-                    <Text color='#FFF' textAlign='center' >Pick {planState.qty} meals </Text>
-                    <Text color='#FFF' textAlign='center' >Plan Price: ${planState.price}</Text>
-                      <Button mb='1' onPress={seeCart}>savings</Button>
-                  </VStack>
-                </Center>
+    <Box safeArea='1' h="320" w="100%" bg='#080938' borderTopLeftRadius='8' >
+      <HStack mx='6' justifyContent='space-between'>
+        <Heading alignContent='center' fontSize="xs" p="2" mt='3' color='#EEE'>
+          Meal Plan
+        </Heading>
+        <Heading alignContent='center'  fontSize="xs" p="2"  mt='3' color='#EEE'>
+          Cart Price
+        </Heading>
+        <Heading  fontSize="xs" p="2" mt='3' color='#EEE'>
+          Meal Count
+        </Heading>
+      </HStack>
+        <Divider w='90%' alignSelf='center' m='2' mb='4' thickness='2' />
+          <Box
+            mx='6' 
+            justifyContent='space-between' 
+          >
+           <HStack space={10}>
+              <Heading  fontSize="md" py="4"  mb='3' color='#EEE' >
+                {planName}
+              </Heading>
+
+              <Heading  fontSize="md" p="4" pb="3"  mb='3' color='#EEE' >
+                ${planPrice}
+              </Heading>
+
+
+              <Heading fontSize="md" p="4" pb="3" ml='4' mb='3' color='#EEE' >
+                {getItemsCount()}
+              </Heading>
+            </HStack>
+          </Box>
+          <Center>
+            <VStack 
+              space={2}
+              alignContent='center'
+
+            >
+            <Box w='180' h='16'  borderRadius='6' bg='coolGray.400' shadow={4} >
+
+            <Heading fontSize="md" p="4" pb="4"  color='#004282' textAlign='center'>
+                {mealPrice}
+              </Heading>
+              </Box>
+      
+            </VStack>
+
+            <Box>
+            <FormButton 
+              text='Cart' 
+              onPress={seeCart} 
+              bdColor='#0077e6'
+            />
+            </Box>
+          </Center>
     </Box>
   </>
     

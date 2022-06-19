@@ -10,11 +10,11 @@ import {
 import { initializeApp, } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence,  } from 'firebase/auth';
+
 // import { getReactNativePersistence, initializeAuth } from 'firebase/auth/react-native';
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// http://localhost:8081
 
 const firebaseConfig = {
     apiKey: FIREBASE_KEY,
@@ -33,14 +33,6 @@ export const auth = getAuth(app);
 
 
 
-// async function getMeals(db) {
-//     // const mealsCol = collection(db, 'meals');
-//     const showMeals = await getDocs(mealsCol);
-//     const listMeals = showMeals.docs.map(doc => doc.data());
-
-//     console.log(listMeals);
-// }
-// getMeals();
 
 // export const auth = initializeAuth(app, {
 //   persistence: getReactNativePersistence(AsyncStorage)

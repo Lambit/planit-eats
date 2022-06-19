@@ -1,75 +1,87 @@
 export const plans = [
         {
+            // $13 a meal
             id: 500,
-            name: 'Plan 1',
+            name: 'Bulk Box 1',
             qty: 5,
-            price: 62.50
+            price: 64.99
         },
         {
+            // $13 a meal
             id: 501,
-            name: 'Plan 2',
+            name: 'Bulk Box 2',
             qty: 6,
-            price: 69.99
+            price: 77.99
         },
         {
+            // $13 a meal
             id: 502,
-            name: 'Plan 3',
+            name: 'Bulk Box 3',
             qty: 7,
-            price: 99.99
+            price: 89.99
         },
         {
+            // $13 a meal
             id: 503,
-            name: 'Plan 4',
+            name: 'Bulk Box 4',
             qty: 8,
+            price: 103.99
+        },
+        {
+            // $12 a meal
+            id: 504,
+            name: 'Bulk Box 5',
+            qty: 10,
             price: 119.99
         },
         {
-            id: 504,
-            name: 'Plan 5',
-            qty: 10,
-            price: 149.99
-        },
-        {
+            // $12 a meal
             id: 505,
-            name: 'Plan 6',
+            name: 'Bulk Box 6',
             qty: 12,
-            price: 169.99
+            price: 143.99
         },
         {
+            // $11 a meal
             id: 506,
-            name: 'Plan 7',
-            qty: 14,
-            price: 179.99
+            name: 'Bulk Box 7',
+            qty: 15,
+            price: 164.99
         },
         {
+            // $11 a meal
             id: 507,
-            name: 'Plan 8',
-            qty: 16,
-            price: 199.99
+            name: 'Bulk Box 8',
+            qty: 18,
+            price: 197.99
         },
         {
+            // $11 a meal
             id: 508,
-            name: 'Plan 9',
+            name: 'Bulk Box 9',
             qty: 20,
-            price: 249.99
+            price: 219.99
         },
         {
+            // $11 a meal
             id: 509,
-            name: 'Plan 10',
+            name: 'Bulk Box 10',
             qty: 25,
-            price: 269.99
+            price: 274.99
         },
         {
+            // $10 a meal
             id: 510,
             name: '6 Months Marathon',
             qty: '6 Months Subscribtion',
-            price: 1000
+            price: 1819.19
         },
         {
+            // $10 a meal
             id: 511,
             name: 'Welcome to the Family',
             qty: '1 Year Subscribtion',
-            price: 5000
+            price: 3639.99
         },
 ];
 

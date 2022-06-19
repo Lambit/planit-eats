@@ -64,3 +64,7 @@ export default function useCart() {
       removeFromCart,
     };
 }
+// let [total, setTotal] = useState(0);
+   // useEffect(() => {
+    //   setTotal(planPrice);
+    // });

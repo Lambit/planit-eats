@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
       height: 4,
       width: 4,
       },
-      elevation: 1,
+      elevation: 6,
     },
     text: {
       color: 'white', 

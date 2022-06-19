@@ -10,7 +10,7 @@ import {
   } from 'react-native';
 
 //Components 
-import { getChicken } from '../data/ChickenMealsData';
+import { getChicken } from '../data/chicken/ChickenData';
 import { CartContext } from '../navigation/context/CartContext';
 
 //Packages
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
       height: 0,
       width: 0,
     },
-    elevation: 1,
     marginVertical: 20,
   },
   image: {

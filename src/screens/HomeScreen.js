@@ -10,7 +10,6 @@ import StatementLayout from '../components/statement-layout/StatementLayout';
 import TwentyOneDay from '../components/twenty-one-day-layout/TwentyOneDay';
 
 // Packages
-import Feather from "react-native-vector-icons/Feather";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HStack, Center, ScrollView, Heading, Box, Text, Divider } from 'native-base';
 
@@ -113,6 +112,32 @@ const HomeScreen = ({ route }) => {
       alert(err.message)
     })
   };
+
+  //     db.collection('bulk-box')
+//   .where('active', '==', true)
+//   .get()
+//   .then(function (querySnapshot) {
+//     querySnapshot.forEach(async function (doc) {
+//       console.log(doc.id, ' => ', doc.data());
+//       const priceSnap = await doc.ref.collection('prices').get();
+//       priceSnap.docs.forEach((doc) => {
+//         console.log(doc.id, ' => ', doc.data());
+//       });
+//     });
+//   });
+
+
+// ---------------get all bulkboxes----------------
+//   const getBox = async () => {
+//   const querySnapshot = await getDocs(collection(db, "bulk-box"));
+//   querySnapshot.forEach((doc) => {
+//     // doc.data() is never undefined for query doc snapshots
+//     console.log(doc.id, " => ", doc.data());
+//     const bulkDocs = doc.id;
+//     return bulkDocs;
+//   });
+// };
+
   //---------Cloud Firsestore API End----------
  
   return (

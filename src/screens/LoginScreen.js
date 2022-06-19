@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { StyleSheet, ImageBackground, Image } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, ImageBackground, Image, Alert, Linking, } from 'react-native';
 import { SafeAreaView, } from 'react-native-safe-area-context'
 
 // Components/Screens
@@ -12,12 +12,16 @@ import { SvgXml } from 'react-native-svg';
 
 
 // Packages
-import { Button, Box, Heading, VStack, Text } from 'native-base';
+import { Button, Box, Heading, VStack, Text, List, ScrollView } from 'native-base';
+import { SvgUri } from 'react-native-svg';
 
 // Firebase
 import { auth } from '../firebase-config';
 import { signInWithEmailAndPassword, } from "firebase/auth";
 import { FirebaseError } from 'firebase/app';
+import { db } from '../firebase-config';
+import { signOut } from 'firebase/auth';
+import { setDoc, doc, getDoc, getDocs, deleteDoc, Timestamp, collection, query, where } from 'firebase/firestore';
 
 
 /* -----LogInScreen-----
@@ -35,8 +39,30 @@ const LoginScreen = ({ navigation, route }) => {
     const [errors, setErrors] = useState('');
     const [visible, setIsVisible] = useState(false);
 
-    console.log(route.params, 'LoginScreen ====');
-    console.log(route.key, 'LoginScreen $$$$$$');
+    const supportedURL = "https://planiteats.page.link/N9CY/success";
+
+    const unsupportedURL = "slack://open?team=123456";
+
+    const OpenURLButton = ({ url, children }) => {
+        const handlePress = useCallback(async () => {
+          // Checking if the link is supported for links with custom URL scheme.
+          const supported = await Linking.canOpenURL(url);
+      
+          if (supported) {
+            // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+            // by some browser in the mobile
+            await Linking.openURL(url);
+          } else {
+            Alert.alert(`Don't know how to open this URL: ${url}`);
+          }
+        }, [url]);
+      
+        return <Button title={children} onPress={handlePress} />;
+      };
+
+    
+
+
     // const { singInUser } = useContext(AuthContext);
                            
     //----Show button color on password input-----
@@ -79,10 +105,10 @@ const LoginScreen = ({ navigation, route }) => {
     const onReg = () => {
         navigation.navigate('Register');
     };
-    const onPay = () => {
-        navigation.navigate('Payment');
+    const onBill = () => {
+        navigation.navigate('Billing');
     };
-    
+
 
     return (
     // ----------------Background Image---------------------------  
@@ -97,6 +123,7 @@ const LoginScreen = ({ navigation, route }) => {
             }
         }
     >  
+    <ScrollView>
         <SafeAreaView style={{ flex: 1, alignItems:'center' }} >
             {/*------------Logo----------- */}
             <Image source={require('../assets/img/PlanItEatsLogo-text-mobile.png')} 
@@ -115,8 +142,7 @@ const LoginScreen = ({ navigation, route }) => {
                         height: 100, 
                         }
                     }
-            />        
-
+            />
                 
             {/* ------LogIn Form ------------------- */}
             <Box 
@@ -156,7 +182,7 @@ const LoginScreen = ({ navigation, route }) => {
                         InputRightElement={
                             // button styles and state change
                             <Button
-                                bg={show ? '#d97706' : '#22c55e'}
+                                bg={show ? '#d97706' : '#0077e6'}
                                 _text={{ 
                                     color: show ? '#000' : '#FFF' 
                                 }}
@@ -191,7 +217,7 @@ const LoginScreen = ({ navigation, route }) => {
             <FormButton 
                 text='Sign In' 
                 onPress={onSignIn} 
-                bdColor='#22c55e'
+                bdColor='#0077e6'
             />
 
             {/* ----Form Button--onRegisterZipButton---- */}
@@ -200,7 +226,15 @@ const LoginScreen = ({ navigation, route }) => {
                 onPress={onRegisterZip} 
                 bdColor='#080938'
             /> 
+
+<OpenURLButton url={supportedURL}>Open Supported URL</OpenURLButton>
+      <OpenURLButton url={unsupportedURL}>Open Unsupported URL</OpenURLButton>
+
+
+           
+    
         </SafeAreaView>
+        </ScrollView>
     </ImageBackground> 
     );
 };
