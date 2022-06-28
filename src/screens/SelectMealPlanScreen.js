@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { db } from '../firebase-config';
@@ -36,7 +36,7 @@ const getBox = async () => {
     const querySnapshot = await getDocs(collection(db, "bulk-box"));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
+      // console.log(doc.id, " => ", doc.data());
           setBox(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
     })
 }
@@ -69,14 +69,6 @@ getBox();
       </>
     );
   }
-  // plans set to an array
-  // const [planState, setPlanState] = useState([]);
-
-  // Gets the plans data and set the state to an array
-  // useEffect(() => {
-  //   setPlanState(getPlans());
-
-  // });
 
 
   // Nav-functions ------------ to AddMealsToPlanScreen with params
@@ -145,10 +137,6 @@ getBox();
             </Heading> 
         </Box> 
 
-       { isLoading 
-       ? 
-        <LoadingScreen /> 
-       :
         <FlatList
           horizontal={true}
           keyExtractor={(item) => item.id.toString()}
@@ -157,7 +145,7 @@ getBox();
           extraData={route.params}
           style={{ paddingTop: 40, marginEnd: 10, marginStart: 2, }}
         /> 
-       }
+       
       
       <FormButton 
        text='Continue' 

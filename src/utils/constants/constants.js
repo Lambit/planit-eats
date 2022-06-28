@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Linking } from 'react-native';
 
 // windowDimentions
 export const windowWidth = Dimensions.get('window').width;
@@ -34,13 +34,3 @@ export const customAppearance = {
     },
    };
 
-  const config = {
-    screens: {
-      Success: '/success',
-      Register: '/cancel'
-    }
-   };
-  export const linking = {
-    prefixes: ['https://planiteats-87148.web.app'],
-    config,
-  };

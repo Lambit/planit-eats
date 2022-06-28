@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Image } from 'react-native';
+import { Image, ImageBackground,  Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { eatsTheme } from '../theme/theme';
 
 // Components
 import HorizontalMenuBar from '../components/horizontal-menu-bar/HorizontalMenuBar';
+import HorizontalAds from '../components/horizontal-ads/HorizontalAds';
 import FormButton from '../components/form-button/FormButton';
-import HomeImageHeader from '../components/home-image-header/HomeImageHeader';
 import StatementLayout from '../components/statement-layout/StatementLayout';
 import TwentyOneDay from '../components/twenty-one-day-layout/TwentyOneDay';
 
 // Packages
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { HStack, Center, ScrollView, Heading, Box, Text, Divider } from 'native-base';
+import { HStack, Center, ScrollView, Heading, Box, Text, Divider, Flex } from 'native-base';
 
 // Firebase
 import { auth} from '../firebase-config';
@@ -20,14 +21,15 @@ import { signOut } from 'firebase/auth';
 import { setDoc, doc, getDoc, deleteDoc, Timestamp } from 'firebase/firestore';
 
 /* ----HomeScreen------
+  key --- HomeTab-Yo_jFpaAC9faAp24-KNmS
   Initial Auth route, once a user is logged they are routed here. The below
   functions are temporary placed here for testing. IconMenu will be its own 
   component. HStack Layout will be similar to current state. 
 */ 
 
 const HomeScreen = ({ route }) => {
+  const { letSpace, weights, breakpoints, lineHi, bR } = eatsTheme;
   console.log(route.params, 'HomeScreen ====');
-  console.log(route.key, 'HomeScreen $$$$$$');
   const navigation = useNavigation();
   // users from cloudDb function
   const [userDoc, setUserDoc]= useState(null);
@@ -141,14 +143,16 @@ const HomeScreen = ({ route }) => {
   //---------Cloud Firsestore API End----------
  
   return (
-    <SafeAreaView style={{flex:1,}}>
-      <Box bg='teal.50'>
+    <>
+
+    {/* <SafeAreaView style={{ flex: 1, alignContent:'center', backgroundColor: eatsTheme.white, }}> */}
+      <Box bg={eatsTheme.white} >
+      <HorizontalMenuBar />
         {/* Icon horizontal scroll - this will be a full menu easy access to meals */}
-        <HorizontalMenuBar />
           {/*------------------------------HomeScreen-------------------------*/}
           <ScrollView>
-            {/* ---------------------Image header --------------------------- */}
-            <HomeImageHeader />
+          
+          <HorizontalAds />
               {/* --------------Eat Better Image-------------------- */}
               <Center m="4">
                 <Image source={require('../assets/img/eat-better.jpg')} 
@@ -164,7 +168,7 @@ const HomeScreen = ({ route }) => {
                   
                 {/*--------------Box1 currentUser info/plans/goals----------------- */}
                 <HStack space={6} justifyContent="center" my='4' >
-                  <Box safeArea='3' w='80' bg="orange.400" rounded="md" shadow={5} >
+                  <Box safeArea='3' w='90%' bg="orange.400" rounded="md" shadow={5} >
                     <Center> 
                       <Heading m="2" >Welcome</Heading>
                         <Divider m="2" thickness="2" bg="#bbf7d0" w="250"/>
@@ -232,18 +236,6 @@ const HomeScreen = ({ route }) => {
                   {/*-----------------HStack layout PlanIt Eats Statement------------- */}
                   <StatementLayout />
                         
-                  {/* --------------------------Veggie Image-------------------------- */}
-                  <Center>
-                    <Image source={require('../assets/img/cut-veg.jpeg')} 
-                      accessibilityLabel='Eat better.'
-                        style={{
-                            width: 300, 
-                            height: 200,
-                            resizeMode: 'cover',
-                            }
-                          }
-                        />
-                  </Center>
                   
                   {/*-----------------HStack layout 21 Day Challenge-------------*/}  
                   <TwentyOneDay />    
@@ -263,7 +255,8 @@ const HomeScreen = ({ route }) => {
                   </HStack>
           </ScrollView>
       </Box>
-    </SafeAreaView>
+    {/* </SafeAreaView> */}
+    </>
   );
 };
 

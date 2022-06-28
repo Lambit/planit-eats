@@ -19,6 +19,7 @@ import { auth } from '../firebase-config';
 import { createUserWithEmailAndPassword, sendSignInLinkToEmail } from 'firebase/auth';
 import { db } from '../firebase-config';
 import { setDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Billing-YAO-_8rUaP711hWduXadV 
 
@@ -40,8 +41,9 @@ const BillingScreen = ({ navigation, route }) => {
     clientsCity, 
     clientsState, 
   } = route.params;
-  console.log(pickOrShipValue);
+  // console.log(pickOrShipValue);
 
+ 
   const [stripeUser, setStripeUser] = useState('');  
   const [show, setShow] = useState(false);
   const [errors, setErrors] = useState('');
@@ -90,7 +92,30 @@ const BillingScreen = ({ navigation, route }) => {
     })
     .catch((e) => Alert.alert(e.message));
   };
-  
+
+   //---Backend Call to firebase functions-------------------------
+  // async function customerCreadtedOnQuickBuy() { 
+  //   await axios({
+  //     method:'POST',
+  //     url:'https://us-central1-planiteats-87148.cloudfunctions.net/createStripeCheckout',
+  //     data: {
+  //       city: formFields.city,
+  //       line1: formFields.address,
+  //       state: formFields.state,
+  //       postal_code: zip, 
+  //       description: planId && zip,
+  //       email: email,
+  //       name: formFields.fullName
+  //     }
+  //   })
+  //   .then((res) => {
+  //     console.log(res.data.id, '------billl---sesssssssion---id');
+  //     setStripeSession(res.data.id);
+  //     Alert.alert(`Thank you ${email}! You will receive an email upon checkout!`)
+  //   })
+  //   .catch((e) => Alert.alert(e.message));
+  // };
+
 
   // --------Navigation Functions--------
   const toPayment = () => {

@@ -15,6 +15,16 @@
     },
     "ui": {
       "enabled": true
+    },
+    "hosting": {
+      "port": 5000
     }
+  },
+  "hosting": {
+    "public": "src/App.js",
+    "ignore": [
+      "*"
+    ]
   }
 }
+

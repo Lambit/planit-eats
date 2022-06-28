@@ -3,7 +3,7 @@ import { FlatList, StyleSheet } from 'react-native';
 
 //Components
 import { MealLayout } from '../components/meal-layout/MealLayout';
-import { getChicken } from '../data/chicken/ChickenData';
+import { getMeals } from '../data/chicken/ChickenData';
 
 /*-----MealList-----
     MealList imports the Meal layout component as well as the get meals function.

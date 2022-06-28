@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Button, StatusBar, Image, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useCallback, WebViewHTMLAttributes } from 'react';
+import { Alert, Button, StatusBar, Image,  Linking,  } from 'react-native';
 
 // Components
 import CustomAlert from '../components/custom-alert/CustomAlert';
@@ -9,10 +9,11 @@ import { customAppearance } from '../utils/constants/constants';
 
 //Packages
 import { Heading, Box, Text, Pressable, HStack, Divider, VStack  } from 'native-base';
-import {useStripe, CardField, PaymentSheet, CardFormView, CardForm } from '@stripe/stripe-react-native';
+import {useStripe} from '@stripe/stripe-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
+
 
 
 // Checkout-LRONZgeEOBmNWlB6zBege
@@ -37,22 +38,45 @@ const CheckoutScreen = ({ navigation, route }) => {
     clientsState,
    } = route.params;
 
-  const amountPlusShip =  pickOrShipValue === 'ship' ? formatCurrency(totalPlusTaxShip) * 100 : formatCurrency(totalPlusTax) * 100;
-  const amountPayable = Math.floor(amountPlusShip);
+   const amountPlusShip =  pickOrShipValue === 'ship' ? formatCurrency(totalPlusTaxShip) * 100 : formatCurrency(totalPlusTax) * 100;
+   const amountPayable = Math.floor(amountPlusShip);
+   const { initPaymentSheet, presentPaymentSheet, } = useStripe();
+   const [loading, setLoading] = useState(false);
+   const [key, setKey] = useState('');
+   const [emphKey, setEmphKey] = useState('');
+   const { handleURLCallback, } = useStripe();
+   const linkUrl = 'https://planiteats.page.link/N9CY';
 
-  const { initPaymentSheet, presentPaymentSheet, } = useStripe();
-  const [loading, setLoading] = useState(false);
-  const [key, setKey] = useState('');
-  const [emphKey, setEmphKey] = useState('');
 
-  console.log(route.params, '===================checkout');
-  console.log(pickOrShipValue);
-  console.log(boxContent);
-  console.log(amountPayable);
-  console.log(key);
+//    const handleDeepLink = useCallback(
+//     async ( url ) => {
+//       if (url && url.includes('safepay')) {
+//             await handleURLCallback(url);
+//         navigation.navigate('Login', { url });
+//         }
+//     }, 
+// );
 
-  useEffect(() => {
-      payIntentInit();
+
+// useEffect(() => {
+//     const getUrlAsync = async () => {
+//       const initialUrl = await Linking.getInitialURL('https://planiteatsapp');
+//       handleDeepLink(initialUrl);
+//       console.log(initialUrl);
+//     };
+
+// getUrlAsync();
+
+// const deepLinkListener = Linking.addEventListener("url", (event) => {
+//     handleDeepLink(event.url);
+//   }
+// );
+
+// return () => deepLinkListener.remove();
+// }, [handleDeepLink]);
+
+   useEffect(() => {
+    payIntentInit();
   }, []);
 
   useEffect(() => {
@@ -60,7 +84,7 @@ const CheckoutScreen = ({ navigation, route }) => {
       initializePaymentSheet();
     }
   }, [key]);
-  
+
   const payIntentInit = async () => { 
     await axios({
       method:'POST',
@@ -79,14 +103,11 @@ const CheckoutScreen = ({ navigation, route }) => {
       },
     })
     .then((res) => {
-      // console.log(res, 'resssssssssssss');
-      // console.log(res.data, 'ress----sdata');
       setKey(res.data.clientSecret);
       setEmphKey(res.data.ephemeralKey);
     })
     .catch((e) => Alert.alert(e.message))
   };
-
 
 
   const initializePaymentSheet = async () => {
@@ -98,8 +119,11 @@ const CheckoutScreen = ({ navigation, route }) => {
       customer: customerId,
       customerEphemeralKeySecret: emphKey,
       allowsDelayedPaymentMethods: true,
+      merchantDisplayName: 'Planit Eats',
+      returnURL: 'https://planiteats.app://stripe-redirect',
+      // get error one step closer
+      // returnURL: 'http://localhost:5001://stripe-redirect',
       appearance: customAppearance,
-      returnURL: 'https://us-central1-planiteats-87148.cloudfunctions.net/sigResponse',
     });
  
 
@@ -109,12 +133,22 @@ const CheckoutScreen = ({ navigation, route }) => {
     if(!key) {
       return;
     }
-    await presentPaymentSheet({key});
-
-
+    await presentPaymentSheet({key})
+  
+    navigation.navigate('Register', {
+      email: email,
+      planId: planId,
+      planName: planName,
+      planPrice: planPrice,
+      boxContent: boxContent,
+      customerId: customerId,
+      fullName: fullName,
+      clientsPhone: clientsPhone,
+    })
   };
 
- 
+
+  console.log(openPaymentSheet);
 
    return (
      <>
@@ -287,40 +321,4 @@ const CheckoutScreen = ({ navigation, route }) => {
 export default CheckoutScreen;
 
 
-// useEffect(() => { 
-//   axios({
-//     method:'POST',
-//     url:'https://us-central1-planiteats-87148.cloudfunctions.net/createPaymentIntent',
-//     data:{
-//       amount: amountPlusShip,
-//       customer: customerId,
-//       receipt_email: email,
-//       description: totalAmount && planId
-//     },
-//   })
-//   .then((res) => {
-//     console.log(res, 'resssssssssssss');
-//     console.log(res.data, 'ress----sdata');
-//     console.log(res.data.clientSecret, 'ress-----secret');
-//     setKey(res.data.clientSecret);
-//     initPaymentSheet({paymentIntentClientSecret: key});
-//   })
-//   .catch((e) => Alert.alert(e.message))
-// },[]);
 
-
-
-// return loading ? (
-//   <ActivityIndicator size="large" style={StyleSheet.absoluteFill} />
-// ) : (
-//   <ScrollView
-//     accessibilityLabel="payment-screen"
-//     style={styles.container}
-//     keyboardShouldPersistTaps="always"
-//   >
-//     {children}
-//     {/* eslint-disable-next-line react-native/no-inline-styles */}
-//     <Text style={{ opacity: 0 }}>appium fix</Text>
-//   </ScrollView>
-// );
-// };

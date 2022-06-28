@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
 
 // Firebase
 import { auth } from '../firebase-config';
@@ -26,6 +27,18 @@ const AddMealsToPlanScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
   /* Set meals data state to an array to be used in a flatlist */ 
   const [meals, setMeals] = useState([]);
+  const priceVal = parseFloat(mealPrice);
+  const taxPrice = 0.0625 * mealPrice;
+  const totalPlusTax = priceVal + taxPrice;
+
+  // const displaySavings = () => {
+  //   const makeValue = totalPlusTax.toFixed(2);
+  //   const countVale = makeValue * getItemsCount();
+  //   if ([items.length ++]) {
+  //     return countVale;
+  //   }
+    // console.log(displaySavings);
+  // }
 
   // ---------------get all meals----------------
   // Call when component is rendered
@@ -41,7 +54,7 @@ const AddMealsToPlanScreen = ({ navigation, route }) => {
     getMealData();
   }, []);
 
-  console.log(mealPrice);
+  // console.log(mealPrice);
 
   const seeCart = () => {
     navigation.navigate('Cart', {
@@ -100,10 +113,6 @@ const AddMealsToPlanScreen = ({ navigation, route }) => {
       Pick Your Meals!
     </Heading>
 
-    { isLoading 
-    ? 
-      <LoadingScreen /> 
-    : 
       <FlatList
         style={{backgroundColor: '#EEE'}}
         contentContainerStyle={{backgroundColor: 'coolGrey.300', marginHorizontal: 2,}}
@@ -112,7 +121,6 @@ const AddMealsToPlanScreen = ({ navigation, route }) => {
         renderItem={renderMeal}
         extraData={route.params}
       /> 
-    }
 
     <Box safeArea='1' h="320" w="100%" bg='#080938' borderTopLeftRadius='8' >
       <HStack mx='6' justifyContent='space-between'>
@@ -152,12 +160,12 @@ const AddMealsToPlanScreen = ({ navigation, route }) => {
               alignContent='center'
 
             >
-            <Box w='180' h='16'  borderRadius='6' bg='coolGray.400' shadow={4} >
+            {/* <Box w='180' h='16'  borderRadius='6' bg='coolGray.400' shadow={4} >
 
             <Heading fontSize="md" p="4" pb="4"  color='#004282' textAlign='center'>
-                {mealPrice}
+                {displaySavings}  
               </Heading>
-              </Box>
+              </Box> */}
       
             </VStack>
 

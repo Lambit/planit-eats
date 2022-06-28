@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, Image } from 'react-native';
+import { ImageBackground, Image, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { eatsTheme }from '../theme/theme';
 
 // Components/Screens
 import CustomInput from '../components/custom-input/CustomInput';
 import FormButton from '../components/form-button/FormButton';
+import PhoneConfirm from '../components/phone-confirm/PhoneConfirm';
 
 // Packages
 import { Button, Box, Heading, VStack, Text, HStack } from 'native-base';
+import axios from 'axios';
 
 // Firebase
-import { firebase } from '@react-native-firebase/auth';
-import {createCheckoutSession} from "@stripe/firestore-stripe-payments";
-import { auth } from '../firebase-config';
+import firebase from "@react-native-firebase/app"
+import firestore from "@react-native-firebase/firestore"
+import auth from "@react-native-firebase/auth"
+// import { auth } from '../firebase-config';
 import { db } from '../firebase-config';
-import { addDoc, Timestamp, collection } from 'firebase/firestore';
-import { FirebaseError } from 'firebase/app';
+// import { addDoc, Timestamp, collection } from 'firebase/firestore';
+
 
 /* -----RegisterZipScreen-----
     Quick buy Route---users can enter their email and zip, then pick a meal plan,
@@ -25,12 +29,14 @@ import { FirebaseError } from 'firebase/app';
 */ 
 
 const RegisterZipScreen = ({ navigation, route }) => {
+    const { letSpace, weights, breakpoints, lineHi } = eatsTheme;
     const [formFields, setFormFeilds] = useState({
         email: '',
         zip: '',
     });
     const [token, setToken] = useState('');
     const [errors, setErrors] = useState('');
+
 
     useEffect(() => {
         if(route.params) {
@@ -40,48 +46,41 @@ const RegisterZipScreen = ({ navigation, route }) => {
             }));
         }
     },[route.params]);
-
-    async function getCustomClaimRole() {
-        await firebase.auth().currentUser.getIdToken(true);
-        const decodedToken = await firebase.auth().currentUser.getIdTokenResult();
-        console.log(decodedToken);
-        console.log(decodedToken.token);
-        console.log(decodedToken.user_id);
-        const siteGuest = decodedToken.claims.stripeRole;
-        const siteGuestToken = decodedToken.token;
-        setToken(siteGuestToken);
-        return siteGuest;
-    };
-    console.log(token);
-
-    //---------Cloud Firsestore API----------
-    // Create new doc Cloud Firebase
-    // const createFakeTokenEmail = async () => {
-    // Add a new document with a generated id.
-    // const emailListRef = await addDoc(collection(db, "customer"), {
-    //     email: formFields.email.toString(),
-    //     zip: formFields.zip.toString(),
-    //     createdAt: Timestamp.fromDate(new Date()),
-    //   })
-    //     const getGuestToken = await getCustomClaimRole()
-    //   .then(() => {
-    //     navigation.navigate('SelectMeal', { 
-    //         email: formFields.email,
-    //         zip: formFields.zip,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-    // };
     
+         // creates a new stripe customer in firestore and within stripe using stripe overwrites the customer everytime
+        // take away .doc(newUser.uid) and change set to add just creates a new firestore user not stripe doesnt overwrite
+    const createEmailList = () => {
+        auth()
+        .signInAnonymously()
+        .then((userCredential) => {
+            const user = userCredential.user.uid;
+            console.log('User signed in anonymously', user);
+            firestore()
+                .collection('email-list')
+                .doc(user.id)
+                .set({
+                    email: formFields.email.toString(),
+                    zip: formFields.zip.toString(),
+                    createdAt: firestore.FieldValue.serverTimestamp(),
+                    
+                }, {merge: true})
 
-    const nothingAttached = () => {
-        navigation.navigate('SelectMeal', { 
-            email: formFields.email,
-            zip: formFields.zip,
+        })
+        .then(() => { 
+            navigation.navigate('SelectMeal', { 
+                email: formFields.email,
+                zip: formFields.zip,
+            });
+          })
+        .catch(error => {
+          if (error.code === 'auth/operation-not-allowed') {
+            console.log('Enable anonymous in your firebase console.');
+          }
+      
+          console.error(error);
         });
-    }
+    };
+
 
     //Custom form validation --- temporary
     const formValidation = () => {
@@ -99,7 +98,10 @@ const RegisterZipScreen = ({ navigation, route }) => {
     
     // Nav functions for Screens buttons
     const backToLogin = () => {
-        navigation.navigate('Login');
+        navigation.navigate('SelectMeal', { 
+            email: formFields.email,
+            zip: formFields.zip,
+        });
     };
 
     return (
@@ -143,8 +145,8 @@ const RegisterZipScreen = ({ navigation, route }) => {
             >
                 <Heading 
                     size="lg" 
-                    fontWeight="600" 
-                    color="coolGray.800"
+                    fontWeight={weights.med} 
+                    color={eatsTheme.textGrey} 
                 >
                     Sign Up!
                 </Heading>
@@ -173,7 +175,7 @@ const RegisterZipScreen = ({ navigation, route }) => {
                     <CustomInput
                         text='Zip'
                         placeholder='Zip Code'
-                        keyboardType='numeric'
+                        keyboardType='default'
                         value={formFields.zip}
                         // onChange={onZipChanged}
                         onChangeText={(zip) => setFormFeilds((prev) => ({...prev, zip: zip}))} 
@@ -206,9 +208,11 @@ const RegisterZipScreen = ({ navigation, route }) => {
             {/* ----Form Button--OnToRegisterButton---- */}
             <FormButton 
                 text='Sign Up' 
-                onPress={nothingAttached} 
+                onPress={createEmailList} 
                 bdColor='#080938'
             /> 
+
+            <PhoneConfirm />
         </SafeAreaView>
     </ImageBackground> 
     );

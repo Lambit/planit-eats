@@ -12,7 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1DAA8996285FB98B0041955E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DAA8995285FB98B0041955E /* GoogleService-Info.plist */; };
+		1DAA8999286865040041955E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DAA8998286865040041955E /* GoogleService-Info.plist */; };
 		7699B88040F8A987B510C191 /* libPods-PlanitEats-PlanitEatsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-PlanitEats-PlanitEatsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -54,7 +54,8 @@
 		1D88EC77280F106700EA704D /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		1D88EC78280F106700EA704D /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		1DAA8992285F3CC30041955E /* PlanitEats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PlanitEats.entitlements; path = PlanitEats/PlanitEats.entitlements; sourceTree = "<group>"; };
-		1DAA8995285FB98B0041955E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1DAA899728612F8D0041955E /* PlanitEatsDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PlanitEatsDebug.entitlements; path = PlanitEats/PlanitEatsDebug.entitlements; sourceTree = "<group>"; };
+		1DAA8998286865040041955E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Documents/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-PlanitEats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlanitEats.debug.xcconfig"; path = "Target Support Files/Pods-PlanitEats/Pods-PlanitEats.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-PlanitEats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlanitEats.release.xcconfig"; path = "Target Support Files/Pods-PlanitEats/Pods-PlanitEats.release.xcconfig"; sourceTree = "<group>"; };
 		5844B90907584A8A870D0128 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -105,7 +106,8 @@
 		13B07FAE1A68108700A75B9A /* PlanitEats */ = {
 			isa = PBXGroup;
 			children = (
-				1DAA8995285FB98B0041955E /* GoogleService-Info.plist */,
+				1DAA8998286865040041955E /* GoogleService-Info.plist */,
+				1DAA899728612F8D0041955E /* PlanitEatsDebug.entitlements */,
 				1DAA8992285F3CC30041955E /* PlanitEats.entitlements */,
 				1D88EC69280F0F0A00EA704D /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -295,7 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				1DAA8996285FB98B0041955E /* GoogleService-Info.plist in Resources */,
+				1DAA8999286865040041955E /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,6 +465,8 @@
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-PlanitEats-PlanitEatsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				DEVELOPMENT_TEAM = 526C5YBZXU;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -490,7 +494,9 @@
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-PlanitEats-PlanitEatsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 526C5YBZXU;
 				INFOPLIST_FILE = PlanitEatsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,7 +521,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = PlanitEats/PlanitEats.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PlanitEats/PlanitEatsDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -531,7 +537,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.PlanitEats;
+				PRODUCT_BUNDLE_IDENTIFIER = "planiteats-87148";
 				PRODUCT_NAME = PlanitEats;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

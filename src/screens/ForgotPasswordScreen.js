@@ -9,7 +9,7 @@ import FormButton from '../components/form-button/FormButton';
 
 
 
-const ForgotPassword = ({ navigation }) => {
+const ForgotPassword = ({ navigation, route }) => {
   console.log(route.params, 'ForgotPassword ====');
   console.log(route.key, 'ForgotPassword $$$$$$');
 

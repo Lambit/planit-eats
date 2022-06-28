@@ -22,27 +22,22 @@ export function QuickBuyMenuLayout({id, name, images, metadata, description, cal
       return (
         <>
   
-            <Modal isOpen={showModal} onClose={() => setShowModal(false)} justifyContent="center" size="lg" mt='20'>
-
-              <Modal.CloseButton ml='6' p='10' color='#FFF'/>
-
-
-                <Box h='200' w='80%'>
-                  <Image
-                   source={images}
-                   alt={name}
-                   alignSelf='center'
-                   h='220'
-                   w='260'
-                  />
-                </Box>
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)} justifyContent="center" size="lg" mt='20' h='90%'>
+            <Modal.CloseButton  p='10' color='#FFF'/>
                   <Modal.Body>
                     <ScrollView>
                     <Box
                       bg='coolGray.300'  
                       borderRadius="8"
                     >
-                      <Modal.Header p='2' bg='#FFF' >   
+                      <Image
+                        source={images}
+                         alt={name}
+                        alignSelf='center'
+                        h='220'
+                        w='100%'
+                      />
+                      <Modal.Header p='2' bg='coolGray.300' >   
                         <Box space={2} 
                           justifyContent="center" alignContent="space-between" 
                           p='2' 
@@ -218,13 +213,20 @@ export function QuickBuyMenuLayout({id, name, images, metadata, description, cal
                       />
                     </Pressable>
                     
-                      <Box w='55%' p='1' >
+                      <Box w='55%' justifyContent='center'pl='2'>
+                      <VStack py='2'>
                         <Text fontWeight='semibold' fontSize='xs'>
                           {name}
                         </Text>
-                        <Text p='1' fontSize='10' >{metadata.gf}</Text>
-                         <Text p='1' fontSize='10' >{metadata.hor}</Text>
-                        <Text p='1' fontSize='10' >{metadata.nat}</Text>
+                        <HStack justifyContent='flex-start' space={4} my='2'>
+                          <Box bg='#004282' p='1' borderRadius='4'><Text fontSize='2xs' fontWeight='extrabold' color='orange.400'>Calories:{' '}{metadata.cal}</Text></Box>
+                          <Box  bg='#004282' p='1' borderRadius='4' ><Text fontSize='2xs' fontWeight='extrabold' color='orange.400'>{metadata.gf}</Text></Box>
+                        </HStack>
+                        <HStack justifyContent='flex-start' space={4}>
+                          <Box bg='#004282' p='1' borderRadius='4'><Text fontSize='2xs' fontWeight='extrabold' color='orange.400'>{metadata.hor}</Text></Box>
+                          <Box  bg='#004282' p='1' borderRadius='4' ><Text fontSize='2xs' fontWeight='extrabold' color='orange.400'>{metadata.nat}</Text></Box>
+                        </HStack>
+                        </VStack>
                           {/* <HStack space={1} justifyContent='space-between' p='2'>
                             <Badge variant='solid' _text={{ textAlign: 'center', fontSize: '8' }} >Calories: {cal}</Badge>
                             <Badge variant='solid' _text={{ textAlign: 'center', fontSize: '8' }} >Carbs: {carb}</Badge>

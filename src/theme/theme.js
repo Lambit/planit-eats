@@ -5,54 +5,43 @@ import { extendTheme } from 'native-base';
 */ 
 
 export const eatsTheme = extendTheme({
-  colors: {
-    green: {
-      10: '#dcfce7',
-      20: '#bbf7d0',
-      30: '#4ade80',
-      40: '#22c55e',
-      50: '#059669',
-      60: '#16a34a',
-      70: '#15803d',
-      80: '#166534',
-      90: '#14532d',
-    },
-    teal: {
-        10: '#5eead4',
-        20: '#2dd4bf',
-        30: '#14b8a6',
-        40: '#0d9488',
-        50: '#115e59',
-    },
-    err: {
-        10: '#dc2626'
-    },
-    warn: {
-      10: '#d97706',
-    },
+  white: '#FFF',
+  cremWhite: '#EEE',
+  black: "#000",
+  lightGreen: '#dcfce7',
+  semiLightGreen: '#bbf7d0',
+  trueGreen: '#4ade80',
+  darkGreen: '#14532d',
+  trueBlue: '#0077e6',
+  darkBlue: '#080938',
+  teal: '#5eead4',
+  darkTeal: '#115e59',
+  primeGrey: 'coolGray.300',
+  textGrey: "coolGray.800",
+  errorRed: '#dc2626',
+  trueRed: '#d44444',
+  warnOrange: '#d97706',
+
+  letSpace: {
+      sm: "-0.025em",
+      md: 0,
+      lg: "0.025em",
+      xl: "0.05em",
   },
-  typography: {
-      letterSpacings: {
-          sm: "-0.025em",
-          md: 0,
-          lg: "0.025em",
-          xl: "0.05em",
-      },
-      lineHeights: {
-          xs: "1.125em",
-          sm: "1.25em",
-          md: "1.375em",
-          lg: "1.5em",
-          xl: "1.75em",
-          "2xl": "2em",
-          "3xl": "3em",
-      },
-      fontWeights: {
-        light: 300,
-        normal: 400,
-        medium: 500,
-        bold: 700,
-      },
+  lineHi: {
+      xs: "1.125em",
+      sm: "1.25em",
+      md: "1.375em",
+      lg: "1.5em",
+      xl: "1.75em",
+      "2xl": "2em",
+      "3xl": "3em",
+  },
+  weights: {
+    light: 300,
+    normal: 400,
+    med: 500,
+    bold: 600,
   },
   breakpoints: {
       base: 0,
@@ -61,5 +50,10 @@ export const eatsTheme = extendTheme({
       lg: 992,
       xl: 1280,
   },
+  bR: {
+    sm: 4,
+    md: 8,
+    pill: 20,
+  }
 });
 

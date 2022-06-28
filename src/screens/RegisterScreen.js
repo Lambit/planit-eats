@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, ImageBackground, Image } from 'react-native';
-import { SafeAreaView, } from 'react-native-safe-area-context'
+import { SafeAreaView, initialWindowMetrics} from 'react-native-safe-area-context'
+import { eatsTheme } from '../theme/theme';
 
 // Components
+import SuccessToast from '../components/success-toast/SuccessToast';
 import FormButton from '../components/form-button/FormButton';
 import CustomInput from '../components/custom-input/CustomInput';
 import PasswordShowInput from '../components/password-show-input/PasswordShowInput';
 
 // Packages
-import { Button, Box, Heading, VStack, ScrollView, useDisclose  } from 'native-base';
+import { Button, Box, Heading, VStack, ScrollView, Center, Text, useToast } from 'native-base';
 
 // Firebase
 import { auth } from '../firebase-config';
@@ -23,29 +25,65 @@ import { setDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
   be adjusted do to SubNSave screen. 
 */ 
 
-const RegisterScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
+const RegisterScreen = ({ navigation, route }) => {
+  const toast = useToast();
+  const { letSpace, weights, breakpoints, lineHi, bR } = eatsTheme;
+  const { email, planId, planName, planPrice, boxContent, customerId, fullName, clientsPhone } = route.params;
+  const [userEmail, setUserEmail] = useState({userEmail: email});
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [show, setShow] = useState(false);
   const [errors, setErrors] = useState('');
   const [visible, setIsVisible] = useState(false);
-  const { isOpen, onClose, onToggle } = useDisclose();
+  console.log(route.params);
 
-  console.log(route.params, 'RegisterScreen ====');
-  console.log(route.key, 'RegisterScreen $$$$$$');
+  //----Generates a toast pop-up for successful order
+  useEffect(() => {
+    toast.show({ 
+      placement: 'top',
+      render: () => {
+        return (
+          <SuccessToast /> 
+        ) 
+      }
+    })
+  
+  }, [8000])
 
   //----Show button color on password input-----
   const handleClick = () => setShow(!show);
 
   //---Remove form isInvalid and errors state---
   const handleErrors = () => setIsVisible(true);
+  
+  const creatUser = async () =>     
+  await createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+      const newUser = userCredential.user;
+      const user = auth.currentUser;
+      // const userData = {
+      //   "stripeId": customerId,
+      //   "displayName": fullName,
+      //   "phoneNumber": clientsPhone,
+      //   "mealPlan": planName,
+      //   "mealPlanId": planId,
+      //   "mealPlanPrice": planPrice,
+      //   "planContent": boxContent,
+      // }
+      // const currentDoc = doc(db, 'customers', newUser.id)
+      // setDoc(currentDoc, userData, {merge: merge})
+      console.log('RegisterScreen------------------', newUser, "----------", user)
+    })
+    .catch((err) => {
+      alert(err.message)
+    })
 
   
 
   // ------------Register user with form/auth validation--------------------
-  const registerUser = async () => {
+  const registerUser = () => {
     let textInputs = [email, password, passwordConfirm];
-    let passwordMatch = password === passwordConfirm;
+    let passwordMatch = password == passwordConfirm;
     
     if(textInputs.includes('') || textInputs.includes(undefined)) 
     return setErrors('Form fields must be filled out.');
@@ -59,14 +97,10 @@ const RegisterScreen = ({ navigation }) => {
     if(!passwordMatch) 
     return setFormError('Passwords do not match.');
 
-    await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const newUser = userCredential.user;
-        console.log('RegisterScreen------------------', newUser)
-      })
-      .catch((err) => {
-        alert(err.message)
-      })
+    if(passwordMatch)
+    return creatUser();
+
+
      
     };
 
@@ -74,9 +108,7 @@ const RegisterScreen = ({ navigation }) => {
   const backToLogIn = () => {
       navigation.navigate('Login');
   };
-  const testPurp = () => {
-    navigation.navigate('SubNSav');
-};
+
 
   return (
     // ----------------Background Image---------------------------  
@@ -92,7 +124,7 @@ const RegisterScreen = ({ navigation }) => {
         }
     >  
      <ScrollView>
-      <SafeAreaView style={{ flex: 1, alignItems:'center' }} >
+      <SafeAreaView style={{ flex: 1, alignItems:'center', }}  >
      
           {/*------------Logo----------- */}
           <Image source={require('../assets/img/PlanItEatsLogo-text-mobile.png')} 
@@ -122,8 +154,8 @@ const RegisterScreen = ({ navigation }) => {
           >
               <Heading 
                   size="lg" 
-                  fontWeight="600" 
-                  color="coolGray.800" 
+                  fontWeight={weights.med} 
+                  color={eatsTheme.textGrey} 
               >
                   Register!
               </Heading>
@@ -136,7 +168,8 @@ const RegisterScreen = ({ navigation }) => {
                     placeholder='Email'
                     autoCapitalize='none'
                     keyboardType='email-address'
-                    onChangeText={userEmail => setEmail(userEmail)}
+                    value={email}
+                    onChangeText={userEmail => setUserEmail(userEmail)}
                     isInvalid={visible ? false : errors}
                     errorMsg={visible ? false : errors} 
                 />
@@ -151,10 +184,10 @@ const RegisterScreen = ({ navigation }) => {
                   InputRightElement={
                     // button styles and state change
                     <Button
-                      bg={show ? '#d97706' : '#22c55e'}
-                      _text={{ 
-                          color: show ? '#000' : '#FFF' 
-                      }}
+                    bg={show ? eatsTheme.warnOrange : eatsTheme.darkGreen }
+                    _text={{ 
+                        color: show ? eatsTheme.black : eatsTheme.white 
+                    }}
                       size="xs" 
                       rounded="none" 
                       w="1/5"
@@ -170,17 +203,17 @@ const RegisterScreen = ({ navigation }) => {
                   <PasswordShowInput
                     onChange={handleErrors}
                     text= 'Confirm Password' 
-                    onChangeText={userPassword => setPassword(userPassword)}
+                    onChangeText={userPassword => setPasswordConfirm(userPassword)}
                     type={show ? "text" : "password"}
                     errorMsg={visible ? false : errors}
                     isInvalid={visible ? false : errors}
                     InputRightElement={
                       // button styles and state change
                       <Button
-                        bg={show ? '#d97706' : '#22c55e'}
-                        _text={{ 
-                            color: show ? '#000' : '#FFF' 
-                        }}
+                      bg={show ? eatsTheme.warnOrange : eatsTheme.darkGreen }
+                      _text={{ 
+                          color: show ? eatsTheme.black : eatsTheme.white 
+                      }}
                         size="xs" 
                         rounded="none" 
                         w="1/5"
@@ -200,8 +233,8 @@ const RegisterScreen = ({ navigation }) => {
                       // onPress={toForgotPass}
                       _text={{
                         fontSize: "xs",
-                        fontWeight: "500",
-                        color: "indigo.500"
+                        fontWeight: weights.med,
+                        color: eatsTheme.trueBlue
                       }} 
                     >
                       Buy Meals now! 
@@ -215,21 +248,9 @@ const RegisterScreen = ({ navigation }) => {
           <VStack space={2} marginBottom="2">
           <FormButton 
               text='Create Account' 
-              onPress={registerUser} 
-              bdColor='#d44444' 
+              onPress={() => registerUser()} 
+              bdColor={eatsTheme.darkBlue}
           />
-
-          <FormButton 
-            text='Back to Sign In' 
-            onPress={backToLogIn} 
-            bdColor='#080938'
-          /> 
-          {/* ---------testCase-------- */}
-          {/* <FormButton 
-            text='Test' 
-            onPress={testPurp} 
-            bdColor='#080938'
-          />  */}
           </VStack>
           
         </SafeAreaView>

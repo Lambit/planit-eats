@@ -28,14 +28,14 @@ export function MealModalInfoScreen({ route }) {
 
   const { addItemToCart } = useContext(CartContext);
 
-  useEffect(() => {
-    setMeal(getChicken(mealId));
-    console.log(mealId, '++++++++++++++++++++++++++')
-  });
+  // useEffect(() => {
+  //   setMeal(getChicken(mealId));
+  //   console.log(mealId, '++++++++++++++++++++++++++')
+  // });
 
-  function onAddToCart() {
-    addItemToCart(meal.id);
-  }
+  // function onAddToCart() {
+  //   addItemToCart(meal.id);
+  // }
 
   return (
     <SafeAreaView >

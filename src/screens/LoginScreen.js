@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { StyleSheet, ImageBackground, Image, Alert, Linking, } from 'react-native';
 import { SafeAreaView, } from 'react-native-safe-area-context'
+import { eatsTheme } from '../theme/theme';
 
 // Components/Screens
 import CustomInput from '../components/custom-input/CustomInput';
@@ -24,6 +25,7 @@ import { signOut } from 'firebase/auth';
 import { setDoc, doc, getDoc, getDocs, deleteDoc, Timestamp, collection, query, where } from 'firebase/firestore';
 
 
+
 /* -----LogInScreen-----
     Inital route for App if not logged in. onSignIn temporarily placed here.
     I am being picky on forms so they arent set in stone, validation is 
@@ -38,8 +40,9 @@ const LoginScreen = ({ navigation, route }) => {
     const [show, setShow] = useState(false);
     const [errors, setErrors] = useState('');
     const [visible, setIsVisible] = useState(false);
+    const { letSpace, weights, breakpoints, lineHi } = eatsTheme;
 
-    const supportedURL = "https://planiteats.page.link/N9CY/success";
+    const supportedURL = "https://planiteats.page.link/?link=https://planiteats.app/success&isi=123456789&ibi=CFBundleInfoDictionaryVersion&ius=org.reactjs.native.example.PlanitEats&cid=1889291867829610521&_osl=https://planiteats.page.link/N9CY&_icp=1";
 
     const unsupportedURL = "slack://open?team=123456";
 
@@ -106,7 +109,7 @@ const LoginScreen = ({ navigation, route }) => {
         navigation.navigate('Register');
     };
     const onBill = () => {
-        navigation.navigate('Billing');
+        navigation.navigate('SelectMeal');
     };
 
 
@@ -124,7 +127,7 @@ const LoginScreen = ({ navigation, route }) => {
         }
     >  
     <ScrollView>
-        <SafeAreaView style={{ flex: 1, alignItems:'center' }} >
+        <SafeAreaView style={{ flex: 1, alignItems:'center' }} w>
             {/*------------Logo----------- */}
             <Image source={require('../assets/img/PlanItEatsLogo-text-mobile.png')} 
                 accessibilityLabel='Text Logo.'
@@ -153,11 +156,12 @@ const LoginScreen = ({ navigation, route }) => {
             >
                 <Heading 
                     size="lg" 
-                    fontWeight="600" 
-                    color="coolGray.800" 
+                    fontWeight={weights.med} 
+                    color={eatsTheme.textGrey} 
                 >
                     Sign In!
                 </Heading>
+
                 <VStack space={2} mt="2">
                     
                     {/* -------------Email Input------------------- */}
@@ -182,9 +186,9 @@ const LoginScreen = ({ navigation, route }) => {
                         InputRightElement={
                             // button styles and state change
                             <Button
-                                bg={show ? '#d97706' : '#0077e6'}
+                                bg={show ? eatsTheme.warnOrange : eatsTheme.darkBlue }
                                 _text={{ 
-                                    color: show ? '#000' : '#FFF' 
+                                    color: show ? eatsTheme.black : eatsTheme.white 
                                 }}
                                 size="xs" 
                                 rounded="none" 
@@ -194,7 +198,8 @@ const LoginScreen = ({ navigation, route }) => {
                             >
                                 {show ? "Hide" : "Show"}
                             </Button>
-                        }/>
+                            }
+                        />
 
                         {/* ------Forgot Password Button------ */}
                         <Button 
@@ -203,8 +208,8 @@ const LoginScreen = ({ navigation, route }) => {
                             onPress={toForgotPass}
                             _text={{
                                 fontSize: "xs",
-                                fontWeight: "500",
-                                color: "indigo.500"
+                                fontWeight: weights.med,
+                                color: eatsTheme.trueBlue
                             }} 
                             alignSelf="flex-end" 
                         >
@@ -217,18 +222,18 @@ const LoginScreen = ({ navigation, route }) => {
             <FormButton 
                 text='Sign In' 
                 onPress={onSignIn} 
-                bdColor='#0077e6'
+                bdColor={eatsTheme.trueBlue}
             />
 
             {/* ----Form Button--onRegisterZipButton---- */}
             <FormButton 
                 text='Sign Up' 
                 onPress={onRegisterZip} 
-                bdColor='#080938'
+                bdColor={eatsTheme.darkBlue}
             /> 
 
-<OpenURLButton url={supportedURL}>Open Supported URL</OpenURLButton>
-      <OpenURLButton url={unsupportedURL}>Open Unsupported URL</OpenURLButton>
+{/* <OpenURLButton url={supportedURL}>Open Supported URL</OpenURLButton>
+      <OpenURLButton url={unsupportedURL}>Open Unsupported URL</OpenURLButton> */}
 
 
            

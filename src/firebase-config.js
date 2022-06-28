@@ -9,7 +9,9 @@ import {
 } from '@env';
 import { initializeApp, } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence,  } from 'firebase/auth';
+import { getAuth,  onAuthStateChanged, setPersistence, browserLocalPersistence, signInAnonymously, getIdToken, getIdTokenResult,  } from 'firebase/auth';
+// import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
+import { getStorage } from "firebase/storage";
 
 // import { getReactNativePersistence, initializeAuth } from 'firebase/auth/react-native';
 // import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,6 +32,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+// Get a reference to the storage service, which is used to create references in your storage bucket
+export const storage = getStorage(app);
+
 
 
 
